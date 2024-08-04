@@ -1,0 +1,3 @@
+ALTER TABLE usuario
+ADD COLUMN ativo INTEGER,
+ADD COLUMN user_name TEXT;

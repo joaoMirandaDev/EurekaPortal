@@ -1,0 +1,172 @@
+{
+  "components": {
+    "warning": {
+      "alert": "Tem certeza ?",
+      "descriptionDeactivateColaborador": "Uma vez desativado, este colaborador não poderá ser pesquisado ou utilizado no sistema até ser reativado.",
+      "descriptionActiveColaborador": "Uma vez ativado, este colaborador estará disponível no sistema e poderá ser pesquisado e utilizado.",
+
+      "descriptionDeleteColaborador": "Uma vez deletado, este colaborador será removido permanentemente e não poderá ser recuperado."
+    },
+    "status": "Status",
+    "sucess": {
+      "dataSucess": "Dados salvo com sucesso!"
+    },
+    "error": {
+      "requiredField": "Campo obrigatório!",
+      "cpfField": "CPF inválido!",
+      "cepInvalid": "CEP inválido!",
+      "emailInvalid": "E-mail inválido!",
+      "dateInvalid": "Data inválida!",
+      "errorBack": "Erro no servidor!",
+      "errorGeneric": "Erro ao salvar dados!"
+    },
+    "photo": "Insira uma foto",
+    "button": {
+      "logout": "Sair",
+      "salvar": "Salvar",
+      "editar": "Editar",
+      "cancelar": "Cancelar",
+      "confirm": "Confirmar"
+    }
+  },
+  "messages": {
+    "getErrorDatabase": "Error ao buscar dados na base de dados",
+    "error": "Error enviar dados"
+  },
+  "pages": {
+    "login": {
+      "title": "Seja bem-vindo",
+      "cpf": "Acesse com seu cpf",
+      "senha": "Digite sua senha",
+      "entrar": "Entrar"
+    },
+    "colaborador": {
+      "message": {
+        "active": "Colaborador ativado com sucesso!",
+        "disable": "Colaborador desativado com sucesso!"
+      },
+      "active": "Ativar",
+      "disable": "Desativar",
+      "titleListagem": "Listagem de colaboradores",
+      "buttonCadastro": "Cadastrar colaborador",
+      "buttonRelatorio": "Baixar relatório",
+      "buttonEdit": "Editar colaborador",
+      "buttonDelete": "Deletar colaborador",
+      "components": {
+        "table": {
+          "nome": "Nome",
+          "sobrenome": "Sobrenome",
+          "cpf": "Cpf",
+          "estado": "Estado",
+          "cidade": "Cidade",
+          "ativo": "Status",
+          "salario": "Sálario:"
+        },
+        "detailTable": {
+          "dadosPessoais": {
+            "title": "Dados Pessoais",
+            "cpf": "Cpf:",
+            "dataNascimento": "Data de nascimento:",
+            "dataContratacao": "Data da contratação:",
+            "dataDemissao": "Data de demissão:",
+            "ativo": "Status:",
+            "salario": "Sálario:"
+          },
+          "endereco": {
+            "title": "Endereço",
+            "cidade": "Cidade:",
+            "bairro": "Bairro:",
+            "numero": "Número:",
+            "cep": "Cep:"
+          },
+          "contato": {
+            "title": "Contato",
+            "email": "E-mail:",
+            "telefone": "Telefone:"
+          }
+        }
+      },
+      "cadastro": {
+        "title": "Novo colaborador",
+        "titleEdit": "Editar colaborador",
+        "dadosPessoais": {
+          "sexo": "Sexo",
+          "inputSexo": "Selecione o sexo",
+          "title": "Dados Pessoais",
+          "nome": "Nome:",
+          "inputNome": "Digite seu nome",
+          "sobrenome": "Sobrenome:",
+          "inputSobrenome": "Digite seu sobrenome",
+          "cpf": "Cpf:",
+          "inputCpf": "Digite seu cpf",
+          "rg": "RG:",
+          "inputRg": "Digite seu rg",
+          "dataContratacao": "Data de contratação:",
+          "inputDataContratacao": "selecione a data de contratação",
+          "dataNascimento":"Data de nascimento:",
+          "inputDataNascimento": "selecione a data de nascimento",
+          "salario": "Sálario:"
+        },
+        "endereco": {
+          "title": "Endereço",
+          "endereco": {
+            "cep": "CEP",
+            "inputCep": "Digite seu cep",
+            "cidade": "Cidade",
+            "inputCidade": "Digite a cidade",
+            "estado": "Estado",
+            "inputEstado": "Digite a cidade",
+            "bairro": "Bairro",
+            "inputBairro": "Digite o bairro",
+            "rua": "Rua",
+            "inputRua": "Digite a rua",
+            "numero": "Número",
+            "inputNumero": "Digite seu número"
+          }
+        },
+        "administrativo": {
+          "title": "Administrativo",
+          "salario": "Sálario:",
+          "inputSalario": "Digite o sálario",
+          "cargo": "Cargo",
+          "inputCargo": "Digite o cargo"
+        },
+        "contatos": {
+          "title": "Contato",
+          "contato": {
+            "email": "E-mail:",
+            "inputEmail": "Digite o email",
+            "telefone": "Telefone:",
+            "inputTelefone": "Digite o telefone"
+          }
+        },
+        "usuario": {
+          "check": "Este colaborador será um usuário do sistema ?",
+          "title": "Usuário",
+          "senha": "Senha",
+          "inputSenha": "Digite a senha",
+          "perfil": "Perfil",
+          "inputPerfil": "Selecione o perfil do usuário"
+        }
+      }
+    }
+  },
+  "documentTitle": {
+    "default": "SISTEMA",
+    "suffix": " | SISTEMA",
+    "fornecedor": {
+      "list": "Fornecedores | SISTEMA",
+      "show": "#{{id}} Visualizar | SISTEMA",
+      "edit": "#{{id}} Editar | SISTEMA",
+      "create": "Novo fornecedor | SISTEMA",
+      "clone": "#{{id}} Clone Category | SISTEMA"
+    },
+    "colaborador": {
+      "list": "Colaboradores | SISTEMA",
+      "show": "#{{id}} Visualizar | SISTEMA",
+      "edit": "#{{id}} Editar | SISTEMA",
+      "create": "Novo colaborador | SISTEMA",
+      "clone": "#{{id}} Clone Category | SISTEMA"
+    }
+  }
+}

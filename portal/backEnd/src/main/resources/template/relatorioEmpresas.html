@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatório</title>
+</head>
+<body style="background-color: white !important;">
+<header style="border: 1px solid black; background-color:#6741D9; justify-content:center; display:flex; aling-itens:center;">
+    <label style="margin: 20px 0; text-align: center; font-weight: bold; font-size: 36px; color: #fff;">Empresas cadastradas</label>
+</header>
+<table class="customers" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+        <th class="columnTr" style="border: 1px solid black; padding: 8px; background:#6741D9; color:#fff;">Razao Social</th>
+        <th class="columnTr" style="border: 1px solid black; padding: 8px; background:#6741D9; color:#fff;">Nome fantasia</th>
+        <th style="border: 1px solid black; padding: 8px; background:#6741D9; color:#fff;">Cnpj</th>
+        <th style="border: 1px solid black; padding: 8px; background:#6741D9; color:#fff;">Inscrição Estadual</th>
+    </tr>
+    <tr th:each="obj : ${object}">
+        <td th:text="${obj.razaoSocial}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.nomeFantasia}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.cnpj}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.inscricaoEstadual}" style="border: 1px solid black; padding: 8px;"></td>
+    </tr>
+</table>
+
+</body>
+</html>

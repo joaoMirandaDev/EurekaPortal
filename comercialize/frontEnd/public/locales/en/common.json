@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "colaborador": {
+      "titleListagem": "List of collaborators "
+    }
+  },
+  "documentTitle": {
+    "default": "SYSTEM",
+    "suffix": " | SYSTEM",
+    "fornecedor": {
+      "list": "Fornecedores | SISTEMA",
+      "show": "#{{id}} Visualizar | SISTEMA",
+      "edit": "#{{id}} Editar | SISTEMA",
+      "create": "Novo fornecedor | SISTEMA",
+      "clone": "#{{id}} Clone Category | SISTEMA"
+    },
+    "colaborador": {
+      "list": "Collaborators | SYSTEM",
+      "show": "#{{id}} Visualizar | SYSTEM",
+      "edit": "#{{id}} Editar | SYSTEM",
+      "create": "New collaborators | SYSTEM",
+      "clone": "#{{id}} Clone Category | SYSTEM"
+    }
+  }
+}

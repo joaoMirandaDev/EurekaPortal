@@ -1,0 +1,210 @@
+{
+  "components": {
+    "common": {
+      "statusInativo": "Inactive"
+    },
+    "warning": {
+      "alert": "Are you sure?",
+      "descriptionDisableUsuario": "Once deactivated, this user will not be searchable or usable in the system until reactivated.",
+      "descriptionActiveUsuario": "Once activated, this user will be available in the system and can be searched and used.",
+      "descriptionDeleteUsuario": "Once deleted, this user will be permanently removed and cannot be recovered.",
+      "descriptionDisableEmpresa": "Once deactivated, this company will not be searchable or usable in the system until reactivated.",
+      "descriptionActiveEmpresa": "Once activated, this company will be available in the system and can be searched and used.",
+      "descriptionDeleteEmpresa": "Once deleted, this company will be permanently removed and cannot be recovered."
+    },
+    "status": "Status",
+    "sucess": {
+      "deleteSucess": "Deleted successfully",
+      "dataSucess": "Data saved successfully!"
+    },
+    "error": {
+      "deleteError": "Error deleting data",
+      "requiredField": "Required field!",
+      "cpfField": "Invalid CPF!",
+      "cnpjField": "Invalid CNPJ!",
+      "cepInvalid": "Invalid CEP!",
+      "emailInvalid": "Invalid email!",
+      "dateInvalid": "Invalid date!",
+      "errorBack": "Server error!",
+      "errorGeneric": "Error saving data!"
+    },
+    "photo": "Insert a photo",
+    "button": {
+      "logout": "Logout",
+      "voltar": "Back",
+      "salvar": "Save",
+      "editar": "Edit",
+      "cancelar": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "messages": {
+    "getErrorDatabase": "Error fetching data from the database",
+    "error": "Error sending data"
+  },
+  "pages": {
+    "login": {
+      "title": "Welcome",
+      "cpf": "Login with your CPF",
+      "senha": "Enter your password",
+      "entrar": "Enter"
+    },
+    "empresa": {
+      "message": {
+        "active": "Company successfully activated!",
+        "disable": "Company successfully deactivated!"
+      },
+      "active": "Activate",
+      "disable": "Deactivate",
+      "titleListagem": "Company Listing",
+      "buttonCadastro": "Register company",
+      "buttonRelatorio": "Download report",
+      "buttonConfig": "Settings",
+      "buttonEdit": "Edit company",
+      "buttonDelete": "Delete company",
+      "payment": "Payments",
+      "user": "Users",
+      "components": {
+        "table": {
+          "razaoSocial": "Corporate name",
+          "nomeFantasia": "Trade name",
+          "cnpj": "CNPJ",
+          "estado": "State",
+          "cidade": "City",
+          "ativo": "Status",
+          "salario": "Salary:"
+        },
+        "detailTable": {
+          "dadosEmpresarial": {
+            "title": "Corporate Data",
+            "cnpj": "CNPJ",
+            "dataAbertura": "Opening date:",
+            "ativo": "Status:",
+            "nomeFantasia": "Trade name:",
+            "razaoSocial": "Corporate name:",
+            "salario": "Salary:"
+          },
+          "endereco": {
+            "title": "Address",
+            "cidade": "City:",
+            "bairro": "Neighborhood:",
+            "numero": "Number:",
+            "cep": "Postal code:"
+          },
+          "contato": {
+            "title": "Contact",
+            "email": "Email:",
+            "telefone": "Phone:"
+          }
+        }
+      },
+      "cadastro": {
+        "title": "New company",
+        "titleEdit": "Edit company",
+        "titleConfig": "Settings",
+        "dadosEmpresarial": {
+          "title": "Corporate data",
+          "razaoSocial": "Corporate name:",
+          "inputRazaoSocial": "Enter the corporate name",
+          "nomeFantasia": "Trade name:",
+          "inputSobrenome": "Enter the trade name",
+          "cpf": "Responsible CPF:",
+          "inputCpf": "Enter the responsible CPF",
+          "cnpj": "CNPJ:",
+          "inputCnpj": "Enter the company's CNPJ",
+          "dataAbertura": "Opening date:",
+          "inputDataAbertura": "Select the opening date",
+          "inscricaoEstadual": "State Registration:",
+          "inputInscricaoEstadual": "Enter the state registration"
+        },
+        "drawerCadastro": {
+          "title": "New user",
+          "login": "Enter the CPF",
+          "inputLogin": "Enter the user's CPF",
+          "senha": "Enter a password for the user",
+          "placeHolderSenha": "Enter the password",
+          "perfil": "Select a profile",
+          "placeHolderPerfil": "Select the user's profile",
+          "userName": "User name",
+          "placeHolderNomeUsuario": "Enter the user's name"
+        },
+        "endereco": {
+          "title": "Address",
+          "endereco": {
+            "cep": "Postal code",
+            "inputCep": "Enter your postal code",
+            "cidade": "City",
+            "inputCidade": "Enter the city",
+            "estado": "State",
+            "inputEstado": "Enter the city",
+            "bairro": "Neighborhood",
+            "inputBairro": "Enter the neighborhood",
+            "rua": "Street",
+            "inputRua": "Enter the street",
+            "numero": "Number",
+            "inputNumero": "Enter your number"
+          }
+        },
+        "administrativo": {
+          "title": "Administrative",
+          "salario": "Salary:",
+          "inputSalario": "Enter the salary",
+          "cargo": "Position",
+          "inputCargo": "Enter the position"
+        },
+        "contatos": {
+          "title": "Contact",
+          "contato": {
+            "email": "Email:",
+            "inputEmail": "Enter the email",
+            "telefone": "Phone:",
+            "inputTelefone": "Enter the phone"
+          }
+        },
+        "usuario": {
+          "buttonCadastro": "Register user",
+          "check": "Will this company be a system user?",
+          "title": "User",
+          "senha": "Password",
+          "inputSenha": "Enter the password",
+          "perfil": "Profile",
+          "inputPerfil": "Select the user's profile"
+        }
+      }
+    },
+    "user": {
+      "tooltip": {
+        "editUser": "Edit user",
+        "deleteUser": "Delete user"
+      },
+      "message": {
+        "active": "User successfully activated!",
+        "disable": "User successfully deactivated!"
+      },
+      "table": {
+        "userName": "Name",
+        "login": "Login",
+        "role": "Profile",
+        "status": "Status"
+      }
+    }
+  },
+  "documentTitle": {
+    "default": "Portal",
+    "suffix": " | Portal",
+    "fornecedor": {
+      "list": "Suppliers | SYSTEM",
+      "show": "#{{id}} View | SYSTEM",
+      "edit": "#{{id}} Edit | SYSTEM",
+      "create": "New supplier | SYSTEM",
+      "clone": "#{{id}} Clone Category | SYSTEM"
+    },
+    "empresas": {
+      "list": "Companies | Portal",
+      "show": "#{{id}} Settings | Portal",
+      "edit": "#{{id}} Edit | Portal",
+      "create": "New company | Portal",
+      "clone": "#{{id}} Clone Category | Portal"
+    }
+  }
+}

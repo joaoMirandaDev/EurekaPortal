@@ -1,0 +1,210 @@
+{
+  "components": {
+    "common": {
+      "statusInativo": "Inativo"
+    },
+    "warning": {
+      "alert": "Tem certeza ?",
+      "descriptionDisableUsuario": "Uma vez desativado, este usuário não poderá ser pesquisado ou utilizado no sistema até ser reativado.",
+      "descriptionActiveUsuario": "Uma vez ativado, este usuário estará disponível no sistema e poderá ser pesquisado e utilizado.",
+      "descriptionDeleteUsuario": "Uma vez deletado, este usuário será removido permanentemente e não poderá ser recuperado.",
+      "descriptionDisableEmpresa": "Uma vez desativado, esta empresa não poderá ser pesquisado ou utilizado no sistema até ser reativado.",
+      "descriptionActiveEmpresa": "Uma vez ativado, esta empresa estará disponível no sistema e poderá ser pesquisado e utilizado.",
+      "descriptionDeleteEmpresa": "Uma vez deletado, esta empresa será removido permanentemente e não poderá ser recuperado."
+    },
+    "status": "Status",
+    "sucess": {
+      "deleteSucess": "Deletado com sucesso",
+      "dataSucess": "Dados salvo com sucesso!"
+    },
+    "error": {
+      "deleteError": "Erro ao deletar dados",
+      "requiredField": "Campo obrigatório!",
+      "cpfField": "CPF inválido!",
+      "cnpjField": "CNPJ inválido!",
+      "cepInvalid": "CEP inválido!",
+      "emailInvalid": "E-mail inválido!",
+      "dateInvalid": "Data inválida!",
+      "errorBack": "Erro no servidor!",
+      "errorGeneric": "Erro ao salvar dados!"
+    },
+    "photo": "Insira uma foto",
+    "button": {
+      "logout": "Sair",
+      "voltar": "Voltar",
+      "salvar": "Salvar",
+      "editar": "Editar",
+      "cancelar": "Cancelar",
+      "confirm": "Confirmar"
+    }
+  },
+  "messages": {
+    "getErrorDatabase": "Error ao buscar dados na base de dados",
+    "error": "Error enviar dados"
+  },
+  "pages": {
+    "login": {
+      "title": "Seja bem-vindo",
+      "cpf": "Acesse com seu cpf",
+      "senha": "Digite sua senha",
+      "entrar": "Entrar"
+    },
+    "empresa": {
+      "message": {
+        "active": "Empresa ativado com sucesso!",
+        "disable": "Empresa desativado com sucesso!"
+      },
+      "active": "Ativar",
+      "disable": "Desativar",
+      "titleListagem": "Listagem Empresas",
+      "buttonCadastro": "Cadastrar empresa",
+      "buttonRelatorio": "Baixar relatório",
+      "buttonConfig": "Configurações",
+      "buttonEdit": "Editar empresa",
+      "buttonDelete": "Deletar empresa",
+      "payment": "Pagamentos",
+      "user": "Usuários",
+      "components": {
+        "table": {
+          "razaoSocial": "Razão social",
+          "nomeFantasia": "Nome fantasia",
+          "cnpj": "Cnpj",
+          "estado": "Estado",
+          "cidade": "Cidade",
+          "ativo": "Status",
+          "salario": "Sálario:"
+        },
+        "detailTable": {
+          "dadosEmpresarial": {
+            "title": "Dados Empresarial",
+            "cnpj": "Cnpj",
+            "dataAbertura": "Data de abertura:",
+            "ativo": "Status:",
+            "nomeFantasia":"Nome Fantasia:",
+            "razaoSocial": "Razão social:",
+            "salario": "Sálario:"
+          },
+          "endereco": {
+            "title": "Endereço",
+            "cidade": "Cidade:",
+            "bairro": "Bairro:",
+            "numero": "Número:",
+            "cep": "Cep:"
+          },
+          "contato": {
+            "title": "Contato",
+            "email": "E-mail:",
+            "telefone": "Telefone:"
+          }
+        }
+      },
+      "cadastro": {
+        "title": "Nova empresa",
+        "titleEdit": "Editar empresa",
+        "titleConfig": "Configurações",
+        "dadosEmpresarial": {
+          "title": "Dados empresarial",
+          "razaoSocial": "Razão Social:",
+          "inputRazaoSocial": "Digite a razão social",
+          "nomeFantasia": "Nome Fantasia:",
+          "inputSobrenome": "Digite o nome fantasia",
+          "cpf": "Cpf responsável:",
+          "inputCpf": "Digite o cpf do resposável",
+          "cnpj": "Cnpj:",
+          "inputCnpj": "Digite o cnpj da empresa",
+          "dataAbertura":"Data de abertura:",
+          "inputDataAbertura": "selecione a data de abertura",
+          "inscricaoEstadual": "Inscrição Estadual:",
+          "inputInscricaoEstadual": "Digite a inscrição estadual"
+        },
+        "drawerCadastro": {
+          "title": "Novo usuário",
+          "login": "Digite o cpf",
+          "inputLogin": "Digite o cpf do usuário",
+          "senha": "Digite uma senha para o usuário",
+          "placeHolderSenha": "Digite a senha",
+          "perfil": "Selecione um perfil",
+          "placeHolderPerfil": "Selecione o perfil do usuário",
+          "userName": "Nome do usuário",
+          "placeHolderNomeUsuario": "Digite o nome do usuário"
+        },
+        "endereco": {
+          "title": "Endereço",
+          "endereco": {
+            "cep": "CEP",
+            "inputCep": "Digite seu cep",
+            "cidade": "Cidade",
+            "inputCidade": "Digite a cidade",
+            "estado": "Estado",
+            "inputEstado": "Digite a cidade",
+            "bairro": "Bairro",
+            "inputBairro": "Digite o bairro",
+            "rua": "Rua",
+            "inputRua": "Digite a rua",
+            "numero": "Número",
+            "inputNumero": "Digite seu número"
+          }
+        },
+        "modulos": {
+          "title": "Módulos",
+          "modulo": {
+            "modulo": "Módulos",
+            "inputModulos": "Selecione um ou mais módulos de acesso"
+          }
+        },
+        "contatos": {
+          "title": "Contato",
+          "contato": {
+            "email": "E-mail:",
+            "inputEmail": "Digite o email",
+            "telefone": "Telefone:",
+            "inputTelefone": "Digite o telefone"
+          }
+        },
+        "usuario": {
+          "buttonCadastro": "Cadastrar usuário",
+          "check": "Este empresa será um usuário do sistema ?",
+          "title": "Usuário",
+          "senha": "Senha",
+          "inputSenha": "Digite a senha",
+          "perfil": "Perfil",
+          "inputPerfil": "Selecione o perfil do usuário"
+        }
+      }
+    },
+    "user": {
+      "tooltip": {
+        "editUser": "Editar usuário",
+        "deleteUser": "Deletar usuário"
+      },
+      "message": {
+        "active": "Usuário ativado com sucesso!",
+        "disable": "Usuário desativado com sucesso!"
+      },
+      "table": {
+        "userName": "Nome",
+        "login": "Login",
+        "role": "Perfil",
+        "status": "Status"
+      }
+    }
+  },
+  "documentTitle": {
+    "default": "Portal",
+    "suffix": " | Portal",
+    "fornecedor": {
+      "list": "Fornecedores | SISTEMA",
+      "show": "#{{id}} Visualizar | SISTEMA",
+      "edit": "#{{id}} Editar | SISTEMA",
+      "create": "Novo fornecedor | SISTEMA",
+      "clone": "#{{id}} Clone Category | SISTEMA"
+    },
+    "empresas": {
+      "list": "Empresas | Portal",
+      "show": "#{{id}} Configurações | Portal",
+      "edit": "#{{id}} Editar | Portal",
+      "create": "Novo empresa | Portal",
+      "clone": "#{{id}} Clone Category | Portal"
+    }
+  }
+}
