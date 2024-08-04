@@ -109,5 +109,4 @@ public class UsuarioController {
         usuarioService.update(dto);
         return ResponseEntity.noContent().build();
     }
-
 }

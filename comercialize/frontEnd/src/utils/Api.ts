@@ -5,7 +5,7 @@ import { VALIDATOR_USUARIO } from './Routes'
 const urlsWOLoading = [VALIDATOR_USUARIO + `${Cookies.get('token')}`]
 
 export const API_URL: string =
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:1080'
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:1081'
 
 axiosInstance.defaults.baseURL = API_URL
 
