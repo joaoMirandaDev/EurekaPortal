@@ -9,6 +9,7 @@ export const GENERATE_RELATORIO_COLABORADOR =
 export const FIND_BY_USUARIO_LOGIN: string = '/api/usuarios/findByLogin/'
 export const VALIDATOR_USUARIO: string = '/api/usuarios/validatorUser/'
 export const AUTH_USUARIO: string = '/api/usuarios/auth'
+export const AUTH_LOGOUT: string = '/api/usuarios/logout'
 
 /* Rotas documentos */
 export const UPLOAD_DOCUMENTOS_TEMP: string = '/api/arquivos/uploadTemp'

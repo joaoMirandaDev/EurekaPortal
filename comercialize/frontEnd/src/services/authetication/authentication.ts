@@ -5,6 +5,7 @@ import { removeformatarCPFCNPJ } from 'src/utils/FormatterUtils'
 import ILogin from 'src/interfaces/login'
 import api from 'src/utils/Api'
 import {
+  AUTH_LOGOUT,
   AUTH_USUARIO,
   FIND_BY_USUARIO_LOGIN,
   VALIDATOR_USUARIO,
@@ -14,6 +15,8 @@ const TOKEN_COOKIE_KEY: string = 'token'
 const USER_COOKIE_KEY: string = 'user'
 const DADOS_USUARIO: string = 'dados_usuario'
 const ROLE: string = 'role'
+const CNPJ: string = 'cnpj'
+const ID_EMPRESA: string = 'id_empresa'
 
 // Function to remove all cookies
 const removeAllCookies = () => {
@@ -27,6 +30,10 @@ const clearAuthentication = () => {
   removeAllCookies()
 }
 
+export const logout = async () => {
+  await api.post(AUTH_LOGOUT)
+}
+
 export const loginAuth = async (credentials: ILogin) => {
   credentials.login = removeformatarCPFCNPJ(credentials.login)
   await api
@@ -34,7 +41,6 @@ export const loginAuth = async (credentials: ILogin) => {
     .then(async response => {
       const token = response.data.token
       const user = jwtDecode(token)
-
       Cookies.set(TOKEN_COOKIE_KEY, token, { expires: 1, secure: true })
       Cookies.set(USER_COOKIE_KEY, JSON.stringify(user), {
         expires: 1,
@@ -47,6 +53,9 @@ export const loginAuth = async (credentials: ILogin) => {
       await api
         .get(FIND_BY_USUARIO_LOGIN + `${response.data.login}`)
         .then(response => {
+          console.log(response)
+          Cookies.set(ID_EMPRESA, response.data.empresaDto.id)
+          Cookies.set(CNPJ, response.data.empresaDto.cnpj)
           Cookies.set(ROLE, response.data.role.name)
         })
     })

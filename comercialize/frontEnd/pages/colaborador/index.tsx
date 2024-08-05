@@ -184,7 +184,6 @@ export default function ColaboradorList() {
   const findAllColaborador = async () => {
     const response = await api.post(FIND_ALL_BY_PAGE_COLABORADOR, filtro)
     const colaboradores = response.data.content
-
     const processedColaboradores = await Promise.all(
       colaboradores.map(
         async (colaborador: {

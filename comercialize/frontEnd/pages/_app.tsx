@@ -12,7 +12,6 @@ import routerProvider, {
 } from '@refinedev/nextjs-router'
 import type { NextPage } from 'next'
 import { AppProps } from 'next/app'
-import api from 'src/utils/Api'
 import { Header } from '@components/common/header'
 import {
   ColorScheme,
@@ -29,15 +28,15 @@ import ILogin from 'src/interfaces/login'
 import {
   clearDados,
   loginAuth,
+  logout,
   verifyUserExpired,
 } from './../src/services/authetication/authentication'
 import { useRouter } from 'next/router'
 import { IconAffiliate, IconUsers } from '@tabler/icons'
 import { Menu } from '@components/common/side'
 import { useLoadingStore } from 'src/stores/LoadingStore'
-import Cookies from 'js-cookie'
 import { SuccessNotification } from '@components/common'
-import { AUTH_USUARIO, FIND_COLABORADOR } from 'src/utils/Routes'
+import { AUTH_USUARIO } from 'src/utils/Routes'
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   noLayout?: boolean
@@ -57,12 +56,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
       }
       const data = await loginAuth(user)
       if (data) {
-        const value = await api.get(
-          FIND_COLABORADOR + `${Cookies.get('dados_usuario')}`
-        )
-        Cookies.set('name', value.data.nome)
         SuccessNotification({
-          message: 'Seja bem vindo(a) ' + value.data.nome + ' !',
+          message: 'Seja bem vindo(a) !',
         })
         return {
           authenticated: true,
@@ -100,6 +95,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
       }
     },
     logout: async () => {
+      await logout()
       clearDados()
       return {
         success: true,

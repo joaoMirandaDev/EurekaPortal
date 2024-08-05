@@ -42,6 +42,7 @@ public class UsuarioDTO {
         this.id = usuario.getId();
         this.login = usuario.getLogin().replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
         this.userName = usuario.getUserName();
+        this.senha = usuario.getSenha();
         this.role = new RoleDTO(usuario.getRole());
         this.dataCadastro = usuario.getDataCadastro();
         this.ativo = usuario.getAtivo() == 0 ? "Ativo" : "Inativo";

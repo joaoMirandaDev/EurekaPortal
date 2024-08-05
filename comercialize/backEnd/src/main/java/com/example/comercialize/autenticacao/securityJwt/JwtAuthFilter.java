@@ -1,6 +1,8 @@
 package com.example.comercialize.autenticacao.securityJwt;
 
 import com.example.comercialize.usuario.service.UsuarioService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,15 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JwtService jwtService;
-    private UsuarioService usuarioService;
-
-    public JwtAuthFilter( JwtService jwtService, UsuarioService usuarioService ) {
-        this.jwtService = jwtService;
-        this.usuarioService = usuarioService;
-    }
+    private final JwtService jwtService;
+    private final UsuarioService usuarioService;
 
     @Override
     protected void doFilterInternal(
@@ -50,8 +48,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
-
     }
 }
