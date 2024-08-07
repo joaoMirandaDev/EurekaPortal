@@ -53,7 +53,6 @@ export const loginAuth = async (credentials: ILogin) => {
       await api
         .get(FIND_BY_USUARIO_LOGIN + `${response.data.login}`)
         .then(response => {
-          console.log(response)
           Cookies.set(ID_EMPRESA, response.data.empresaDto.id)
           Cookies.set(CNPJ, response.data.empresaDto.cnpj)
           Cookies.set(ROLE, response.data.role.name)
@@ -71,20 +70,22 @@ export const clearDados = () => {
 }
 
 export const verifyUserExpired = async () => {
-  const check = await api
-    .get(VALIDATOR_USUARIO + `${Cookies.get(TOKEN_COOKIE_KEY)}`)
-    .then(response => {
-      if (!response.data) {
+  if (TOKEN_COOKIE_KEY !== 'undefined' || TOKEN_COOKIE_KEY !== undefined) {
+    const check = await api
+      .get(VALIDATOR_USUARIO + `${Cookies.get(TOKEN_COOKIE_KEY)}`)
+      .then(response => {
+        if (!response.data) {
+          removeAllCookies()
+          clearAuthentication()
+          return response.data
+        }
+        return response.data
+      })
+      .catch(() => {
         removeAllCookies()
         clearAuthentication()
-        return response.data
-      }
-      return response.data
-    })
-    .catch(() => {
-      removeAllCookies()
-      clearAuthentication()
-      return false
-    })
-  return check
+        return false
+      })
+    return check
+  }
 }

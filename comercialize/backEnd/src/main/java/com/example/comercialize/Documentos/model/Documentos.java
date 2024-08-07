@@ -1,9 +1,7 @@
 package com.example.comercialize.Documentos.model;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,8 +9,10 @@ import javax.persistence.*;
 @Table(name = "documentos")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Documentos {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -22,5 +22,8 @@ public class Documentos {
 
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String route;
+
+    @Column(name = "status")
+    private Integer status;
 
 }

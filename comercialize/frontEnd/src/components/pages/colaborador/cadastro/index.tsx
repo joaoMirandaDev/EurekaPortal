@@ -8,6 +8,7 @@ import {
   Group,
   NumberInput,
   Select,
+  SelectItem,
   Text,
   TextInput,
   Title,
@@ -31,9 +32,15 @@ import {
   IconDatabasePlus,
 } from '@tabler/icons-react'
 import { IconTrash, IconUpload } from '@tabler/icons'
-import { CREATE_COLABORADOR, UPLOAD_DOCUMENTOS_TEMP } from 'src/utils/Routes'
+import {
+  CREATE_COLABORADOR,
+  FIND_ALL_CARGOS,
+  UPLOAD_DOCUMENTOS_TEMP,
+} from 'src/utils/Routes'
 import { useRef, useEffect, useState } from 'react'
 import { validaColaborador } from '../validation/schemaColaborador'
+import ICargo from 'src/interfaces/cargo'
+import { getImage } from 'src/utils/Arquivo'
 interface IFile {
   name: string
   key: string
@@ -44,6 +51,7 @@ interface Colaborador {
 const Cadastro: React.FC<Colaborador> = ({ id }) => {
   const t = useTranslate()
   const [photo, setImagem] = useState<string | null>(null)
+  const [dataCargo, setDataCargo] = useState<SelectItem[]>([])
   const resetRef = useRef<() => void>(null)
   const navigate = useRouter()
   const form = useForm<{
@@ -56,7 +64,8 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
     dataContratoInicial: Date | null
     sexo: string
     salario: number
-    cargo: string
+    status: number
+    cargo: ICargo
     ativo: number | null
     email: string
     endereco: {
@@ -71,16 +80,21 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
     file: IFile
   }>({
     initialValues: {
-      id: 0,
+      id: null,
       nome: '',
       sobrenome: '',
       dataNascimento: null,
+      status: 0,
       dataContratoInicial: null,
       sexo: '',
       cpf: '',
       rg: '',
       telefone: '',
-      cargo: '',
+      cargo: {
+        id: null,
+        ativo: null,
+        nome: '',
+      },
       ativo: 0,
       email: '',
       salario: 0,
@@ -149,11 +163,31 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
     if (id) {
       getColaboradorById(id.toString())
     }
+    findAllCargos()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
+  const findAllCargos = () => {
+    api.get(FIND_ALL_CARGOS).then(response => {
+      const data = response.data.map((data: ICargo) => ({
+        value: data.id,
+        label: data.nome,
+      }))
+      setDataCargo(data)
+    })
+  }
+
   const getColaboradorById = async (id: string) => {
     const value = await api.get(`/api/colaborador/findById/${id}`)
+    if (value.data.documentos) {
+      const photo = await getImage(
+        value.data.documentos.route,
+        t('messages.getErrorDatabase')
+      )
+      if (photo) {
+        setImagem(photo)
+      }
+    }
     form.setValues(value.data)
     form.setFieldValue(
       'dataContratoInicial',
@@ -473,17 +507,16 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           {t('pages.colaborador.cadastro.administrativo.title')}
         </Text>
         <Group>
-          <TextInput
-            withAsterisk
+          <Select
+            {...form.getInputProps('cargo.id')}
+            size={'xs'}
             w={250}
-            size="xs"
-            {...form.getInputProps('cargo')}
-            value={formatarTelefone(form.values?.cargo)}
-            onChange={event => handleChange(event.target.value, 'cargo')}
+            onChange={event => handleChange(event, 'cargo.id')}
             label={t('pages.colaborador.cadastro.administrativo.cargo')}
             placeholder={t(
               'pages.colaborador.cadastro.administrativo.inputCargo'
             )}
+            data={dataCargo}
           />
           <NumberInput
             withAsterisk

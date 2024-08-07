@@ -14,3 +14,6 @@ export const AUTH_LOGOUT: string = '/api/usuarios/logout'
 /* Rotas documentos */
 export const UPLOAD_DOCUMENTOS_TEMP: string = '/api/arquivos/uploadTemp'
 export const GET_DOCUMENTOS: string = '/api/arquivos/image'
+
+/* Rotas cargos */
+export const FIND_ALL_CARGOS: string = '/api/cargo/findAll'

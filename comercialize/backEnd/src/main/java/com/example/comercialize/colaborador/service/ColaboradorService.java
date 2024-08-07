@@ -7,6 +7,7 @@ import com.example.comercialize.Documentos.service.PdfGenerator;
 import com.example.comercialize.Endereco.service.EnderecoService;
 import com.example.comercialize.Utils.Interfaces.LocaleInteface;
 import com.example.comercialize.Utils.genericClass.GenericSpecification;
+import com.example.comercialize.cargo.service.CargoService;
 import com.example.comercialize.colaborador.DTO.ColaboradorCreateDto;
 import com.example.comercialize.colaborador.DTO.ColaboradorDto;
 import com.example.comercialize.colaborador.filter.FilterColaborador;
@@ -32,6 +33,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.*;
 
+import static com.example.comercialize.Utils.Interfaces.Routes.PASTA_DEFINITIVA_FOTO_PERFIL;
 import static com.example.comercialize.Utils.genericClass.GenericSpecification.*;
 
 
@@ -42,6 +44,7 @@ public class ColaboradorService {
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
     private final EnderecoService enderecoService;
+    private final CargoService cargoService;
     private final UsuarioService usuarioService;
     private final DocumentosService documentosService;
     private final ColaboradorRepository colaboradorRepository;
@@ -58,24 +61,24 @@ public class ColaboradorService {
 
     @Transactional(rollbackFor = Exception.class)
     public void create(@Valid ColaboradorCreateDto colaboradorDto) throws Exception {
-
             Colaborador colaborador = modelMapper.map(colaboradorDto, Colaborador.class);
             if (Objects.nonNull(colaboradorDto.getFile()) && Objects.nonNull(colaboradorDto.getFile().getKey()) && !colaboradorDto.getFile().getKey().isEmpty() ) {
                 colaborador.setDocumentos(documentosService.save(colaboradorDto.getFile()));
             }
+            colaborador.setCargo(cargoService.findById(colaboradorDto.getCargo().getId()));
             colaborador.setEndereco(enderecoService.add(colaboradorDto.getEndereco()));
             colaboradorRepository.save(colaborador);
 
     }
 
-    public Colaborador findById(@Positive @NotNull Integer id) throws NotFoundException {
+    public Colaborador findById(@Positive @NotNull Long id) throws NotFoundException {
         Colaborador colaborador =  colaboradorRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 messageSource.getMessage("error.isEmpty", null, LocaleInteface.BR)
         ));
         return colaborador;
     }
 
-    public void activeOrDisableColaborador(Integer id, Integer status) throws NotFoundException {
+    public void activeOrDisableColaborador(Long id, Integer status) throws NotFoundException {
         Colaborador colaborador = this.findById(id);
         colaborador.setStatus(status);
         colaboradorRepository.save(colaborador);
@@ -100,7 +103,7 @@ public class ColaboradorService {
         return Page.empty();
     }
 
-    public void deleteById(@NotNull @Positive Integer id) {
+    public void deleteById(@NotNull @Positive Long id) {
         if (colaboradorRepository.existsById(id)) {
             colaboradorRepository.deleteById(id);
         } else {
@@ -131,7 +134,7 @@ public class ColaboradorService {
         return modelMapper.map(colaboradorRepository.findByCpf(cpf),ColaboradorDto.class);
     }
 
-    public ColaboradorCreateDto findColaboradorById(Integer id) throws NotFoundException {
+    public ColaboradorCreateDto findColaboradorById(Long id) throws NotFoundException {
         Colaborador colaborador = this.findById(id);
         ColaboradorCreateDto dto = modelMapper.map(colaborador, ColaboradorCreateDto.class);
         if (Objects.nonNull(colaborador.getDocumentos())) {

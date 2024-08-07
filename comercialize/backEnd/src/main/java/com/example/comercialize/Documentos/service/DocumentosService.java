@@ -5,11 +5,13 @@ import com.example.comercialize.Documentos.model.Documentos;
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Documentos.repository.DocumentosRepository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -26,9 +28,10 @@ import java.util.UUID;
 
 @Service
 @EnableWebMvc
+@RequiredArgsConstructor
 public class DocumentosService {
 
-    private static DocumentosRepository documentosRepository;
+    private final DocumentosRepository documentosRepository;
 
     public Optional<Documentos> findAll(Short id) {
         List<Documentos> arquivos = documentosRepository.findAll();
@@ -63,7 +66,7 @@ public class DocumentosService {
 //
 //        }
 //    }
-
+    @Transactional(rollbackFor = Exception.class)
     private String moveFileToPaste(FileKey file)  {
         // Caminho da pasta de destino
         String destino = Routes.PASTA_DEFINITIVA;
@@ -86,16 +89,23 @@ public class DocumentosService {
     }
 
     //Salva a imagem na pasta definitiva e retorna o caminho cripto
+    @Transactional(rollbackFor = Exception.class)
     public Documentos save(FileKey file) throws Exception {
+        String route = null;
         try {
+            route = moveFileToPaste(file);
             Documentos documentos = new Documentos();
-            documentos.setRoute(moveFileToPaste(file));
+            documentos.setRoute(route);
             documentos.setNome(file.getName());
+            documentos.setStatus(0);
             documentosRepository.save(documentos);
             return documentos ;
 
         } catch (Exception e) {
-            throw new Exception("Não foi possivel resgatar a foto");
+            if (Objects.nonNull(route) && !route.isEmpty()) {
+                this.deleteDocumentoByPath(route);
+            }
+            throw new Exception(e.getMessage());
         }
 
     }
@@ -105,6 +115,7 @@ public class DocumentosService {
     }
 
     //Salva o arquivo na pasta temporaria
+    @Transactional(rollbackFor = Exception.class)
     public String saveTemp(MultipartFile multipartFile) throws Exception {
 
                 // Caminho pasta temp

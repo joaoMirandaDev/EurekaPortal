@@ -1,7 +1,9 @@
 package com.example.comercialize.colaborador.DTO;
 
+import com.example.comercialize.Documentos.DTO.DocumentosDTO;
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Endereco.Dto.EnderecoDTO;
+import com.example.comercialize.cargo.DTO.CargoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import java.util.Date;
 @Data
 public class ColaboradorCreateDto {
 
-    private Integer id;
+    private Long id;
     @NotEmpty
     private String nome;
     @NotEmpty
@@ -30,10 +32,11 @@ public class ColaboradorCreateDto {
     private String rg;
     @NotEmpty
     private String telefone;
-    private String cargo;
+    private CargoDto cargo;
     private String email;
     private Double salario;
     private FileKey file;
-    private Integer ativo;
+    private Integer status;
     private EnderecoDTO endereco;
+    private DocumentosDTO documentos;
 }

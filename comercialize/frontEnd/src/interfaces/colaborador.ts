@@ -4,7 +4,7 @@ export default interface IColaborador {
   dataContratoFinal: string
   dataContratoInicial: string
   dataNascimento: string
-  ativo: string | number
+  status: string | number
   id?: number
   sobrenome?: string
   nome?: string

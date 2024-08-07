@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ColaboradorRepository extends PagingAndSortingRepository<Colaborador, Integer>, JpaRepository<Colaborador, Integer>, JpaSpecificationExecutor<Colaborador> {
+public interface ColaboradorRepository extends PagingAndSortingRepository<Colaborador, Long>, JpaRepository<Colaborador, Long>, JpaSpecificationExecutor<Colaborador> {
 
     Colaborador findByCpf(String cpf);
 

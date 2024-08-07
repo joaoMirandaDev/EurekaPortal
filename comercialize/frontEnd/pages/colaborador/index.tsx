@@ -293,7 +293,7 @@ export default function ColaboradorList() {
             />
             <span>
               {renderedCellValue}
-              {row.original.ativo === 'Ativo' ? (
+              {row.original.status === 'Ativo' ? (
                 ''
               ) : (
                 <Text fw={'bold'} color="red">
@@ -376,7 +376,7 @@ export default function ColaboradorList() {
         },
       },
       {
-        accessorKey: 'ativo',
+        accessorKey: 'status',
         header: t('pages.colaborador.components.table.ativo'),
         filterVariant: 'select',
         enableSorting: true,
@@ -515,7 +515,7 @@ export default function ColaboradorList() {
                 )}
               </Text>
               <Text ml={'0.5rem'}>
-                {row.original.ativo ? row.original.ativo : '-'}
+                {row.original.status ? row.original.status : '-'}
               </Text>
             </Flex>
             {(Cookies.get('role') == 'ADMIN' ||
@@ -626,7 +626,7 @@ export default function ColaboradorList() {
 
   const rowActions = ({ row }: { row: MRT_Row<IColaborador> }) => (
     <Flex>
-      {row.original.ativo === 'Ativo' && (
+      {row.original.status === 'Ativo' && (
         <Tooltip label={t('pages.colaborador.buttonEdit')}>
           <ActionIcon
             disabled={validatePermissionRole()}
@@ -642,7 +642,7 @@ export default function ColaboradorList() {
       )}
       <Tooltip
         label={
-          row.original.ativo == 'Ativo'
+          row.original.status == 'Ativo'
             ? t('pages.colaborador.disable')
             : t('pages.colaborador.active')
         }
@@ -650,14 +650,18 @@ export default function ColaboradorList() {
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
-          color={row.original.ativo == 'Ativo' ? 'red' : 'green'}
+          color={row.original.status == 'Ativo' ? 'red' : 'green'}
           variant="transparent"
           aria-label="Settings"
           onClick={() =>
-            openDeactivateModal(row.original.id!, row.original.ativo)
+            openDeactivateModal(row.original.id!, row.original.status)
           }
         >
-          {row.original.ativo == 'Ativo' ? <IconUserMinus /> : <IconUserPlus />}
+          {row.original.status == 'Ativo' ? (
+            <IconUserMinus />
+          ) : (
+            <IconUserPlus />
+          )}
         </ActionIcon>
       </Tooltip>
       <Tooltip label={t('pages.colaborador.buttonDelete')}>

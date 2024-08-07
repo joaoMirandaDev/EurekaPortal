@@ -39,13 +39,13 @@ public class ColaboradorController {
 
     @RequestMapping(value = "/findById/{id}", method = RequestMethod.GET, produces = "application/json")
     @Operation(summary = "FindById", description = "Metodo utilizado para resgatar o colaborador por ID", tags = "Colaborador")
-    public ColaboradorCreateDto findById(@Positive @NotNull @PathVariable("id") Integer id) throws NotFoundException {
+    public ColaboradorCreateDto findById(@Positive @NotNull @PathVariable("id") Long id) throws NotFoundException {
         return colaboradorService.findColaboradorById(id);
     }
 
     @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE, produces = "application/json")
     @Operation(summary = "Deletar colaborador", description = "Metodo utilizado para deletar os colaboradores", tags = "Colaborador")
-    public ResponseEntity<String> deleteById(@NotNull @Positive @PathVariable("id") Integer id) {
+    public ResponseEntity<String> deleteById(@NotNull @Positive @PathVariable("id") Long id) {
         try {
             colaboradorService.deleteById(id);
           return ResponseEntity.ok(messageSource.getMessage("success.delete", null, LocaleInteface.BR));
@@ -75,7 +75,7 @@ public class ColaboradorController {
 
     @RequestMapping(value = "/activeOrDisable/{id}/{status}", method = RequestMethod.PUT, produces = "application/json")
     @Operation(summary = "Editar colaborador", description = "Metodo utilizado para ativar e desativar colaborador", tags = "Colaborador")
-    public ResponseEntity<Void> activeOrDisable(@Positive @PathVariable("id") Integer id, @PositiveOrZero @PathVariable("status") Integer status) throws Exception {
+    public ResponseEntity<Void> activeOrDisable(@Positive @PathVariable("id") Long id, @PositiveOrZero @PathVariable("status") Integer status) throws Exception {
         colaboradorService.activeOrDisableColaborador(id, status);
         return ResponseEntity.noContent().build();
     }
