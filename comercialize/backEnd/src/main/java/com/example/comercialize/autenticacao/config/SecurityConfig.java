@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(AUTH_LIST).permitAll()
-                .antMatchers("/api/**/list", "/api/**/list/**").hasAnyRole("ADMIN","PROPRIETARIO","CAIXA")
+                .antMatchers("/api/**/list", "/api/**/list/**", "/api/**/page").hasAnyRole("ADMIN","PROPRIETARIO","CAIXA", "GERENTE")
                 .antMatchers(HttpMethod.GET,"/api/**").hasAnyRole("ADMIN","PROPRIETARIO","CAIXA")
                 .antMatchers("/api/**").hasAnyRole("ADMIN", "PROPRIETARIO")
                 .anyRequest().authenticated()
@@ -76,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_LIST = {
             "/swagger-ui/**",
+            "/api/arquivos/**",
             "/swagger-ui.html",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
