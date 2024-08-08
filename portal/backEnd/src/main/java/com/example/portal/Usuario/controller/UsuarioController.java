@@ -78,7 +78,7 @@ public class UsuarioController {
 
     @GetMapping("/validatorUser/{token}")
     @Operation(summary = "Validar Token", description = "Metodo utilizado para validar Token", tags = "Usuario")
-    public boolean userValidator(@PathVariable String token) {
+    public boolean userValidator(@PathVariable("token") String token) {
         return  jwtService.tokenValido(token);
     }
 
