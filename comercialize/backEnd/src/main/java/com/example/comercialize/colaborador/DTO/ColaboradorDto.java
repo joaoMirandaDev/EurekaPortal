@@ -2,6 +2,7 @@ package com.example.comercialize.colaborador.DTO;
 
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Endereco.Dto.EnderecoDTO;
+import com.example.comercialize.cargo.DTO.CargoDto;
 import com.example.comercialize.colaborador.model.Colaborador;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -40,8 +41,7 @@ public class ColaboradorDto {
     private String rg;
     @NotEmpty
     private String telefone;
-    @NotEmpty
-    private String cargo;
+    private CargoDto cargo;
     private Integer isUsuario;
     private String email;
     private String status;
@@ -67,6 +67,7 @@ public class ColaboradorDto {
         }
         this.telefone = colaborador.getTelefone();
         this.email = colaborador.getEmail();
+        this.cargo = new CargoDto(colaborador.getCargo());
         this.status = Objects.nonNull(colaborador.getStatus()) && colaborador.getStatus().equals(0) ? "Ativo" : "Inativo";
         if (Objects.nonNull(colaborador.getDocumentos())) {
             FileKey fileKey = new FileKey(colaborador.getDocumentos().getNome(), colaborador.getDocumentos().getRoute());

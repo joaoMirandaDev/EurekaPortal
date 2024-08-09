@@ -88,7 +88,7 @@ public class DocumentosService {
 
     }
 
-    //Salva a imagem na pasta definitiva e retorna o caminho cripto
+    //Salva na pasta definitiva e retorna o caminho cripto
     @Transactional(rollbackFor = Exception.class)
     public Documentos save(FileKey file) throws Exception {
         String route = null;

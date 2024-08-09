@@ -6,4 +6,6 @@ INSERT INTO comercialize.cargo(nome, status) VALUES
 ('MOTORISTA', 0),
 ('GERENTE', 0),
 ('CEO', 0),
-('TELEFONISTA', 0);
+('TELEFONISTA', 0),
+('PROPRIETARIO', 0),
+('ASSISTENCIA', 0);

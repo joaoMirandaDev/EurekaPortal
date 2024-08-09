@@ -27,6 +27,7 @@ public class FilterColaborador {
     private String cidade;
     private String cpf;
     private Integer ativo;
+    private String cargo;
 
 
     public FilterColaborador(String id, boolean desc, int tamanhoPagina, int pagina) {

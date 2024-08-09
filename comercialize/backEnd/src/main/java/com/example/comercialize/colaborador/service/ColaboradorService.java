@@ -95,7 +95,8 @@ public class ColaboradorService {
                 .and(filterByProperty("cpf",filtro.getCpf()))
                 .and(filterByIdWithJoin("endereco","estado",filtro.getEstado()))
                 .and(filterByIdWithJoin("endereco","cidade" ,filtro.getCidade()))
-                .and(filterByPropertyInterger("ativo", filtro.getAtivo()));
+                .and(filterByIdWithJoin("cargo","nome" ,filtro.getCargo()))
+                .and(filterByPropertyInterger("status", filtro.getAtivo()));
         Page<Colaborador> colaboradorPage = colaboradorRepository.findAll(specification, pageable);
         if (Objects.nonNull(colaboradorPage) && !colaboradorPage.getContent().isEmpty()) {
             return colaboradorPage.map(ColaboradorDto::new);

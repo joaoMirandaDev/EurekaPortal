@@ -47,7 +47,7 @@ export const removeformatarCPFCNPJ = (dados: string) => {
 }
 
 export const removeformatacaoTelefone = (dados: string) => {
-  return dados.replaceAll(/[()\s-]+/g, '')
+  return dados.replaceAll(/[()\s-]+/g, '');
 }
 
 export const dateAsString = (date: Date) => {
@@ -68,7 +68,7 @@ export const formataCep = (val: string) => {
   return val
     .replace(/\D/g, '')
     .replace(/(\d{5})(\d)/, '$1-$2')
-    .replace(/(-\d{3})\d+?$/, '$1')
+    .replace(/(-\d{3})\d+?$/, '$1');
 }
 
 export const maskCpfCnpj = IMask.createMask({

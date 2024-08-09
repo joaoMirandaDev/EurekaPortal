@@ -6,6 +6,7 @@ export default interface IFiltoColaborador {
   tamanhoPagina: number
   nome?: string
   sobrenome?: string
+  cargo?: string
   cpf?: string
   estado?: string
   cidade?: string

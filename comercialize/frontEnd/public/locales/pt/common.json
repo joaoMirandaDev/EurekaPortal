@@ -60,7 +60,7 @@
           "estado": "Estado",
           "cidade": "Cidade",
           "ativo": "Status",
-          "salario": "Sálario:"
+          "cargo": "Cargo:"
         },
         "detailTable": {
           "dadosPessoais": {

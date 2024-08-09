@@ -261,6 +261,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
                   useNewQueryKeys: true,
+                  projectId: 'SftYZL-15ClDs-pM7rcI',
                 }}
               >
                 {renderComponent()}

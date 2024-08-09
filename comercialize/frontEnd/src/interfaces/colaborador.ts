@@ -16,6 +16,10 @@ export default interface IColaborador {
   senha?: string
   role?: number
   photo?: string
+  cargo: {
+    id: number
+    nome: string
+  }
   file: {
     name?: string
     key?: string

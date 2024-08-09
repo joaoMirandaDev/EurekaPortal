@@ -12,13 +12,7 @@ import {
   Tooltip,
 } from '@mantine/core'
 import { useTranslate } from '@refinedev/core'
-import {
-  IconDownload,
-  IconEdit,
-  IconTrash,
-  IconUserMinus,
-  IconUserPlus,
-} from '@tabler/icons'
+import { IconEdit, IconTrash, IconUserMinus, IconUserPlus } from '@tabler/icons'
 import Cookies from 'js-cookie'
 import {
   MRT_ColumnDef,
@@ -34,17 +28,15 @@ import IColaborador from 'src/interfaces/colaborador'
 import IFiltoColaborador from 'src/interfaces/IfiltroColaborador'
 import ImodalWarning from 'src/interfaces/ImodalWarning'
 import api from 'src/utils/Api'
-import { downloadByteArrayAsFile, getImage } from 'src/utils/Arquivo'
+import { getImage } from 'src/utils/Arquivo'
 import { PAGE_INDEX, PAGE_SIZE } from 'src/utils/Constants'
 import {
   formataCep,
   formatarCPFCNPJ,
   formatarTelefone,
 } from 'src/utils/FormatterUtils'
-import {
-  FIND_ALL_BY_PAGE_COLABORADOR,
-  GENERATE_RELATORIO_COLABORADOR,
-} from 'src/utils/Routes'
+import { FIND_ALL_BY_PAGE_COLABORADOR } from 'src/utils/Routes'
+import { validatePermissionRole } from 'src/utils/ValidatePermissionRole'
 
 interface IColaboradorProps {
   id: string
@@ -73,6 +65,7 @@ export default function ColaboradorList() {
     sobrenome: '',
     cpf: '',
     estado: '',
+    cargo: '',
     cidade: '',
     ativo: null,
     pagina: 0,
@@ -85,6 +78,7 @@ export default function ColaboradorList() {
       nome: '',
       sobrenome: '',
       cpf: '',
+      cargo: '',
       estado: '',
       cidade: '',
       ativo: null,
@@ -130,6 +124,9 @@ export default function ColaboradorList() {
             break
           case 'endereco.estado':
             filterCliente('estado', column.value)
+            break
+          case 'cargo.nome':
+            filterCliente('cargo', column.value)
             break
           case 'ativo':
             {
@@ -254,12 +251,6 @@ export default function ColaboradorList() {
     }
   }
 
-  const validatePermissionRole = () => {
-    if (Cookies.get('role') == 'CAIXA') {
-      return true
-    }
-  }
-
   const columns = useMemo<MRT_ColumnDef<IColaborador>[]>(
     () => [
       {
@@ -335,10 +326,24 @@ export default function ColaboradorList() {
         },
       },
       {
+        accessorKey: 'cargo.nome',
+        header: t('pages.colaborador.components.table.cargo'),
+        enableSorting: true,
+        enableColumnFilter: true,
+        size: 15,
+        minSize: 10,
+        maxSize: 30,
+        mantineTableBodyCellProps: {
+          align: 'center',
+        },
+        mantineTableHeadCellProps: {
+          align: 'center',
+        },
+      },
+      {
         accessorKey: 'endereco.estado',
         header: t('pages.colaborador.components.table.estado'),
         enableSorting: true,
-        filterVariant: 'select',
         enableColumnFilter: true,
         size: 15,
         minSize: 10,
@@ -378,7 +383,6 @@ export default function ColaboradorList() {
       {
         accessorKey: 'status',
         header: t('pages.colaborador.components.table.ativo'),
-        filterVariant: 'select',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -390,6 +394,27 @@ export default function ColaboradorList() {
         mantineTableHeadCellProps: {
           align: 'center',
         },
+        Cell: ({ renderedCellValue }) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+            }}
+          >
+            <span>
+              {renderedCellValue === 'Ativo' ? (
+                <Text fw={'bold'} color="green">
+                  Ativo
+                </Text>
+              ) : (
+                <Text fw={'bold'} color="red">
+                  Inativo
+                </Text>
+              )}
+            </span>
+          </Box>
+        ),
       },
     ],
     [t]
@@ -414,17 +439,6 @@ export default function ColaboradorList() {
           : t('components.warning.descriptionActiveColaborador'),
     })
     setOpenModal(true)
-  }
-
-  const getRelatorio = () => {
-    api
-      .get(GENERATE_RELATORIO_COLABORADOR, { responseType: 'blob' })
-      .then(res => {
-        downloadByteArrayAsFile(res.data)
-      })
-      .catch(() => {
-        console.error(t('components.error.errorGeneric'))
-      })
   }
 
   const editar = (id: number) => {
@@ -686,14 +700,6 @@ export default function ColaboradorList() {
           {t('pages.colaborador.titleListagem')}
         </Text>
         <Flex>
-          <Button
-            disabled={validatePermissionRole()}
-            leftIcon={<IconDownload size={16} />}
-            onClick={() => getRelatorio()}
-            mr={'0.5rem'}
-          >
-            {t('pages.colaborador.buttonRelatorio')}
-          </Button>
           <Button
             disabled={validatePermissionRole()}
             leftIcon={<IconUserPlus size={16} />}
