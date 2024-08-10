@@ -60,6 +60,7 @@ export default function ColaboradorList() {
     pageIndex: PAGE_INDEX,
     pageSize: PAGE_SIZE,
   })
+  const CNPJ: string = 'cnpj'
   const [filtro, setFiltro] = useState<IFiltoColaborador>({
     nome: '',
     sobrenome: '',
@@ -67,6 +68,7 @@ export default function ColaboradorList() {
     estado: '',
     cargo: '',
     cidade: '',
+    cnpj: Cookies.get(CNPJ),
     ativo: null,
     pagina: 0,
     tamanhoPagina: 10,
@@ -81,6 +83,7 @@ export default function ColaboradorList() {
       cargo: '',
       estado: '',
       cidade: '',
+      cnpj: Cookies.get(CNPJ),
       ativo: null,
       pagina: 0,
       tamanhoPagina: 10,
@@ -162,6 +165,7 @@ export default function ColaboradorList() {
       estado: '',
       cidade: '',
       ativo: 0,
+      cnpj: Cookies.get(CNPJ),
       pagina: 0,
       tamanhoPagina: 10,
       id: 'nome',

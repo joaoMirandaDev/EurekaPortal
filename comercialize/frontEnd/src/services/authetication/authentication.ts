@@ -54,7 +54,10 @@ export const loginAuth = async (credentials: ILogin) => {
         .get(FIND_BY_USUARIO_LOGIN + `${response.data.login}`)
         .then(response => {
           Cookies.set(ID_EMPRESA, response.data.empresaDto.id)
-          Cookies.set(CNPJ, response.data.empresaDto.cnpj)
+          Cookies.set(
+            CNPJ,
+            removeformatarCPFCNPJ(response.data.empresaDto.cnpj)
+          )
           Cookies.set(ROLE, response.data.role.name)
         })
     })

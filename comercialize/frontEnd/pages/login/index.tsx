@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <Flex align="center" direction="column" justify="center" h={'100vh'}>
       <Group align="center" position="center">
-        <Card radius="md" shadow="sm" withBorder w={450}>
+        <Card radius="md" shadow="sm" withBorder>
           <Card.Section px={80} py={30}>
             <Text
               color="blue"

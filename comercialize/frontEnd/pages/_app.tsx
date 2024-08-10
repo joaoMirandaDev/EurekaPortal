@@ -35,7 +35,6 @@ import { useRouter } from 'next/router'
 import { IconAffiliate, IconUsers } from '@tabler/icons'
 import { Menu } from '@components/common/side'
 import { useLoadingStore } from 'src/stores/LoadingStore'
-import { SuccessNotification } from '@components/common'
 import { AUTH_USUARIO } from 'src/utils/Routes'
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
@@ -56,9 +55,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
       }
       const data = await loginAuth(user)
       if (data) {
-        SuccessNotification({
-          message: 'Seja bem vindo(a) !',
-        })
         return {
           authenticated: true,
           redirectTo: '/colaborador',
@@ -115,10 +111,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
       <ThemedLayoutV2
         initialSiderCollapsed={false}
         Header={() => <Header />}
-        dashboard={true}
+        dashboard={false}
         Sider={() => <Menu />}
         Title={({ collapsed }) => (
-          <ThemedTitleV2 collapsed={collapsed} text="SISTEMA" />
+          <ThemedTitleV2 collapsed={collapsed} text="Comercialize" />
         )}
       >
         <Authenticated

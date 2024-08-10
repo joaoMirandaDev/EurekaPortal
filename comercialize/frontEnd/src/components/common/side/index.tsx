@@ -54,33 +54,39 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
   const drawerWidth = () => {
     return 200
   }
-
   const commonNavLinkStyles: Styles<NavLinkStylesNames, NavLinkStylesParams> = {
     root: {
       display: 'flex',
       fontWeight: 500,
+      width: '100%',
+      margin: '0',
+      alignItems: 'center',
       '&:hover': {
         backgroundColor: '#ffffff1a',
       },
       '&[data-active]': {
         fontWeight: 700,
       },
-      justifyContent: opened ? 'center' : 'flex-start',
     },
-    icon: {
-      marginRight: opened ? 0 : 12,
-    },
+
     body: {
-      display: opened ? 'none' : 'flex',
+      display: 'flex',
+      alignItems: 'center',
+      overflow: 'hidden',
+      padding: '0',
+      width: '100%',
+      whiteSpace: 'normal',
+      textOverflow: 'ellipsis',
+      visibility: 'visible',
     },
   }
 
   const commonTooltipProps: Partial<TooltipProps> = {
-    disabled: true,
+    disabled: false,
     position: 'right',
     withinPortal: true,
     withArrow: true,
-    arrowSize: 8,
+    arrowSize: 10,
     arrowOffset: 12,
     offset: 4,
   }
@@ -102,6 +108,7 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
           key={item.key}
           resource={name.toLowerCase()}
           action="list"
+          // onUnauthorized={}
           params={{
             resource: item,
           }}
@@ -109,12 +116,11 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
           <Tooltip label={label} {...commonTooltipProps}>
             <NavLink
               key={item.key}
-              label={opened ? null : label}
+              label={label ?? name}
               icon={icon ?? defaultNavIcon}
               active={isSelected}
               childrenOffset={opened ? 0 : 12}
               defaultOpened={defaultOpenKeys.includes(item.key || '')}
-              styles={commonNavLinkStyles}
               {...additionalLinkProps}
             >
               {isParent && renderTreeView(children, selectedKey)}
@@ -200,14 +206,16 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
       <MediaQuery largerThan="md" styles={{ display: 'none' }}>
         <Box sx={{ position: 'fixed', top: 64, left: 0, zIndex: 1199 }}>
           <ActionIcon
-            color="white"
+            color="dark"
             size={36}
             sx={{
+              border: 'solid 1px #228BE6',
+              background: 'dark',
               borderRadius: '0 6px 6px 0',
             }}
             onClick={() => setOpened(prev => !prev)}
           >
-            <IconMenu2 />
+            <IconMenu2 color="#228BE6" />
           </ActionIcon>
         </Box>
       </MediaQuery>
@@ -217,12 +225,34 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
           opened={opened}
           onClose={() => setOpened(false)}
           size={200}
+          p={0}
           zIndex={1200}
-          withCloseButton={false}
+          withCloseButton={true}
         >
-          <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-            {renderSider()}
-          </Navbar.Section>
+          <Navbar
+            sx={{
+              overflow: 'hidden',
+              transition: 'width 200ms ease, min-width 200ms ease',
+              position: 'fixed',
+              top: 0,
+              height: '100vh',
+            }}
+          >
+            <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+              {renderSider()}
+            </Navbar.Section>
+            <Divider />
+            <Navbar.Section mb={0}>
+              <Button
+                radius={0}
+                fullWidth
+                onClick={() => mutateLogout()}
+                color="red"
+              >
+                <IconLogout size={18} /> {t('components.button.logout')}
+              </Button>
+            </Navbar.Section>
+          </Navbar>
         </Drawer>
       </MediaQuery>
 
@@ -230,6 +260,7 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
         <Box
           sx={{
             width: drawerWidth(),
+            padding: 0,
             transition: 'width 200ms ease, min-width 200ms ease',
             flexShrink: 0,
           }}

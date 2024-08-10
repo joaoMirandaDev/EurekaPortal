@@ -41,6 +41,7 @@ import { useRef, useEffect, useState } from 'react'
 import { validaColaborador } from '../validation/schemaColaborador'
 import ICargo from 'src/interfaces/cargo'
 import { getImage } from 'src/utils/Arquivo'
+import Cookies from 'js-cookie'
 interface IFile {
   name: string
   key: string
@@ -65,6 +66,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
     sexo: string
     salario: number
     status: number
+    cnpjEmpresa: string
     cargo: ICargo
     ativo: number | null
     email: string
@@ -84,6 +86,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
       nome: '',
       sobrenome: '',
       dataNascimento: null,
+      cnpjEmpresa: Cookies.get('cnpj')!,
       status: 0,
       dataContratoInicial: null,
       sexo: '',
@@ -115,7 +118,9 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
   })
   const buscarDadosCep = async (value: string) => {
     if (value.length === 8 || value !== '') {
-      const dados = await api.get(`/api/endereco/findByRegiao/${value}`)
+      const dados = await api.get(
+        `/api/endereco/findByRegiao/${value.replace(/[-. ]/g, '')}`
+      )
       handleChange(dados.data.cep, 'endereco.cep'.replace(/[-. ]/g, ''))
       handleChange(dados.data.bairro, 'endereco.bairro')
       handleChange(dados.data.localidade, 'endereco.cidade')

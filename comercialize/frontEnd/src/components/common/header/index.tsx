@@ -48,9 +48,10 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
       }}
     >
       <Flex
-        align="center"
-        justify="end"
+        justify="flex-end"
         sx={{
+          position: 'relative',
+          width: '100%',
           height: '100%',
         }}
       >

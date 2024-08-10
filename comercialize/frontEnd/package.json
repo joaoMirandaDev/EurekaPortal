@@ -72,6 +72,7 @@
     "mantine-react-table": "^1.0.0",
     "next": "^13.0.7",
     "next-i18next": "^8.9.0",
+    "ngrok": "^5.0.0-beta.2",
     "nookies": "^2.5.2",
     "react": "^18.0.0",
     "react-apexcharts": "^1.4.1",
