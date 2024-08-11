@@ -10,11 +10,14 @@ import {
   FIND_BY_USUARIO_LOGIN,
   VALIDATOR_USUARIO,
 } from 'src/utils/Routes'
+import { getImage } from 'src/utils/Arquivo'
 
 const TOKEN_COOKIE_KEY: string = 'token'
 const USER_COOKIE_KEY: string = 'user'
-const DADOS_USUARIO: string = 'dados_usuario'
+const CPF: string = 'cpf'
+const NAMEUSER: string = 'nome_user'
 const ROLE: string = 'role'
+const PHOTO_EMPRESA: string = 'photo_empresa'
 const CNPJ: string = 'cnpj'
 const ID_EMPRESA: string = 'id_empresa'
 
@@ -49,16 +52,25 @@ export const loginAuth = async (credentials: ILogin) => {
       const getUserCookie: string = Cookies.get('user') ?? ''
       const userCookie = JSON.parse(getUserCookie)
       const usuario = userCookie.sub
-      Cookies.set(DADOS_USUARIO, usuario, { expires: 1, secure: true })
+      Cookies.set(CPF, usuario, { expires: 1, secure: true })
       await api
         .get(FIND_BY_USUARIO_LOGIN + `${response.data.login}`)
-        .then(response => {
+        .then(async response => {
           Cookies.set(ID_EMPRESA, response.data.empresaDto.id)
           Cookies.set(
             CNPJ,
             removeformatarCPFCNPJ(response.data.empresaDto.cnpj)
           )
+          Cookies.set(NAMEUSER, response.data.userName)
           Cookies.set(ROLE, response.data.role.name)
+          let photo = null
+          if (
+            response.data.empresaDto.file &&
+            response.data.empresaDto.file.key
+          ) {
+            photo = await getImage(response.data.empresaDto.file.key!, 'Erro')
+            Cookies.set(PHOTO_EMPRESA, photo!)
+          }
         })
     })
     .catch(() => {

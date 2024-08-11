@@ -36,6 +36,7 @@ import { IconAffiliate, IconUsers } from '@tabler/icons'
 import { Menu } from '@components/common/side'
 import { useLoadingStore } from 'src/stores/LoadingStore'
 import { AUTH_USUARIO } from 'src/utils/Routes'
+import Cookies from 'js-cookie'
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   noLayout?: boolean
@@ -97,6 +98,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
         success: true,
         authenticated: false,
         redirectTo: '/login',
+      }
+    },
+    getIdentity: async () => {
+      return {
+        cnpj: Cookies.get('cnpj'),
+        cpf: Cookies.get('cpf'),
+        nameUser: Cookies.get('nome_user'),
+        role: Cookies.get('role'),
+        photoEmpresa: Cookies.get('photo_empresa'),
       }
     },
     onError: async () => ({}),

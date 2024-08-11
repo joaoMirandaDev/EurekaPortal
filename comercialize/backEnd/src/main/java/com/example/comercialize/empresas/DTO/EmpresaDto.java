@@ -1,5 +1,6 @@
 package com.example.comercialize.empresas.DTO;
 
+import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.empresas.model.Empresa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -24,6 +25,7 @@ public class EmpresaDto {
     private String inscricaoEstadual;
     private String email;
     private String ativo;
+    private FileKey file;
 
     public EmpresaDto(Empresa empresa) {
         this.id = empresa.getId();

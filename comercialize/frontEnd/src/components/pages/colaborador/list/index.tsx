@@ -43,19 +43,21 @@ export default function ViewColaborador() {
   })
   const [dataCliente, setDataCliente] = useState<IColaborador[]>([])
   const [totalPage, setTotalPage] = useState<number>(0)
+
   const handleChange = (event: number, key: keyof IFiltoColaborador) => {
     setFiltro(prevState => ({
       ...prevState,
       [key]: event,
     }))
   }
+
   useEffect(() => {
     findAllColaborador()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtro])
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   useEffect(() => {
-    findAllColaborador()
     const handleResize = () => setWindowWidth(window.innerWidth)
 
     window.addEventListener('resize', handleResize)
@@ -99,7 +101,7 @@ export default function ViewColaborador() {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Group spacing="xs" position={windowWidth < 1300 ? 'center' : 'left'}>
+      <Group spacing="xs" position={windowWidth < 1280 ? 'center' : 'left'}>
         {dataCliente.map((val, index) => (
           <Card key={index} shadow="sm" radius="md" withBorder>
             <Card.Section>
@@ -143,9 +145,10 @@ export default function ViewColaborador() {
                 </Menu>
               </Flex>
             </Card.Section>
-            <Flex justify={'center'} mt="md" mb="xs">
+            <Flex justify={'center'} mt="md" mb="xs" align={'center'}>
               <Text weight={500}>{val.nome + ' ' + val.sobrenome!}</Text>
               <Badge
+                ml={'0.5rem'}
                 color={val.status === 'Ativo' ? 'green' : 'red'}
                 variant="light"
               >

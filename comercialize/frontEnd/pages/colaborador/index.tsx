@@ -35,6 +35,7 @@ import { useEffect, useMemo, useState } from 'react'
 import IColaborador from 'src/interfaces/colaborador'
 import IFiltoColaborador from 'src/interfaces/IfiltroColaborador'
 import ImodalWarning from 'src/interfaces/ImodalWarning'
+import useWindowWidth from 'src/services/responsive/responsive'
 import api from 'src/utils/Api'
 import { getImage } from 'src/utils/Arquivo'
 import { PAGE_INDEX, PAGE_SIZE } from 'src/utils/Constants'
@@ -60,7 +61,7 @@ export default function ColaboradorList() {
   const [columnFilters, setColumnFilters] = useState<IColaboradorProps[]>([])
   const [sorting, setSorting] = useState<MRT_SortingState>([])
   const [dataCliente, setDataCliente] = useState<IColaborador[]>([])
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const windowWidth = useWindowWidth()
   const [totalElements, setTotalElements] = useState<number>(0)
   const [pagination, setPagination] = useState<MRT_PaginationState>({
     pageIndex: PAGE_INDEX,
@@ -100,14 +101,13 @@ export default function ColaboradorList() {
   }
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth)
-    if (window.innerWidth < 1200) {
+    if (windowWidth < 1200) {
       setChecked(false)
+    } else {
+      setChecked(true)
     }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [windowWidth])
   useEffect(() => {
     if (
       pagination.pageIndex !== filtro.pagina ||
@@ -521,21 +521,22 @@ export default function ColaboradorList() {
     <>
       <Flex justify={'flex-end'} align={'center'} mb={'1rem'}>
         <Flex align={'center'}>
-          <Switch
-            disabled={windowWidth < 1200}
-            checked={checked}
-            mr={'0.5rem'}
-            onChange={event => setChecked(event.currentTarget.checked)}
-            size="lg"
-            onLabel={<IconList size="1rem" stroke={2.5} />}
-            offLabel={<IconLayoutGrid size="1rem" stroke={2.5} />}
-          />
+          {windowWidth > 1200 && (
+            <Switch
+              checked={checked}
+              mr={'0.5rem'}
+              onChange={event => setChecked(event.currentTarget.checked)}
+              size="lg"
+              onLabel={<IconList size="1rem" stroke={2.5} />}
+              offLabel={<IconLayoutGrid size="1rem" stroke={2.5} />}
+            />
+          )}
           <Button
             disabled={validatePermissionRole()}
             leftIcon={<IconUserPlus size={16} />}
             onClick={() => navigate.push('colaborador/cadastro')}
           >
-            Novo Colaborador
+            Cadastrar
           </Button>
         </Flex>
       </Flex>

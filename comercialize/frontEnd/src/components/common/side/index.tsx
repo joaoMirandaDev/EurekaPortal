@@ -12,6 +12,7 @@ import {
   useRouterType,
   useTranslate,
   useWarnAboutChange,
+  useGetIdentity,
 } from '@refinedev/core'
 import {
   ActionIcon,
@@ -29,14 +30,18 @@ import {
   Flex,
   Divider,
   Button,
+  Text,
+  Image,
 } from '@mantine/core'
 import { IconList, IconMenu2, IconDashboard, IconLogout } from '@tabler/icons'
 import { RefineLayoutSiderProps } from '@refinedev/mantine'
+import IUser from 'src/interfaces/user'
+import { formatarCPFCNPJ } from 'src/utils/FormatterUtils'
 const defaultNavIcon = <IconList size={18} />
 
 export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
   const [opened, setOpened] = useState(false)
-
+  const { data: user } = useGetIdentity<IUser>()
   const routerType = useRouterType()
   const NewLink = useLink()
   const { Link: LegacyLink } = useRouterContext()
@@ -238,6 +243,23 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
               height: '100vh',
             }}
           >
+            <Navbar.Section>
+              <Flex direction={'column'} align={'center'}>
+                <Image
+                  height={120}
+                  width={200}
+                  src={user?.photoEmpresa}
+                  alt="With custom placeholder"
+                  withPlaceholder
+                  placeholder={<Text align="center">Sem imagem</Text>}
+                />
+                <Text fw={'bold'}>
+                  {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
+                </Text>
+                <Text fw={'bold'}>{user?.nameUser}</Text>
+              </Flex>
+            </Navbar.Section>
+            <Divider />
             <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
               {renderSider()}
             </Navbar.Section>
@@ -278,6 +300,27 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
             height: '100vh',
           }}
         >
+          <Navbar.Section>
+            <Flex direction={'column'} align={'center'}>
+              <Image
+                height={120}
+                width={200}
+                src={user?.photoEmpresa}
+                alt="With custom placeholder"
+                withPlaceholder
+                placeholder={
+                  <Text align="center">
+                    This image contained the meaning of life
+                  </Text>
+                }
+              />
+              <Text fw={'bold'}>
+                {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
+              </Text>
+              <Text fw={'bold'}>{user?.nameUser}</Text>
+            </Flex>
+          </Navbar.Section>
+          <Divider />
           <Navbar.Section grow mt="sm" component={ScrollArea} mx="-xs" px="xs">
             {renderSider()}
           </Navbar.Section>
