@@ -1,3 +1,4 @@
+import { Paginacao } from '@components/common/pagination'
 import {
   ActionIcon,
   Badge,
@@ -6,7 +7,6 @@ import {
   Group,
   Image,
   Menu,
-  Pagination,
   Text,
 } from '@mantine/core'
 import {
@@ -17,13 +17,11 @@ import {
   IconUserPlus,
 } from '@tabler/icons'
 import Cookies from 'js-cookie'
-import { MRT_PaginationState } from 'mantine-react-table'
 import { useEffect, useState } from 'react'
 import IColaborador from 'src/interfaces/colaborador'
 import IFiltoColaborador from 'src/interfaces/IfiltroColaborador'
 import api from 'src/utils/Api'
 import { getImage } from 'src/utils/Arquivo'
-import { PAGE_INDEX, PAGE_SIZE } from 'src/utils/Constants'
 import { formatarCPFCNPJ, formatarTelefone } from 'src/utils/FormatterUtils'
 import { FIND_ALL_BY_PAGE_COLABORADOR } from 'src/utils/Routes'
 
@@ -45,13 +43,17 @@ export default function ViewColaborador() {
   })
   const [dataCliente, setDataCliente] = useState<IColaborador[]>([])
   const [totalPage, setTotalPage] = useState<number>(0)
-  const [pagination, setPagination] = useState<MRT_PaginationState>({
-    pageIndex: PAGE_INDEX,
-    pageSize: PAGE_SIZE,
-  })
+  const handleChange = (event: number, key: keyof IFiltoColaborador) => {
+    setFiltro(prevState => ({
+      ...prevState,
+      [key]: event,
+    }))
+  }
+  useEffect(() => {
+    findAllColaborador()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtro])
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const [currentPage, setCurrentPage] = useState<number>(1)
-
   useEffect(() => {
     findAllColaborador()
     const handleResize = () => setWindowWidth(window.innerWidth)
@@ -60,18 +62,6 @@ export default function ViewColaborador() {
     return () => window.removeEventListener('resize', handleResize)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    if (pagination.pageIndex !== filtro.pagina) {
-      const localFiltro = {
-        ...filtro,
-        pagina: pagination.pageIndex,
-      }
-      setFiltro(localFiltro)
-    }
-    findAllColaborador()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination, filtro])
 
   const findAllColaborador = async () => {
     const response = await api.post(FIND_ALL_BY_PAGE_COLABORADOR, filtro)
@@ -165,15 +155,9 @@ export default function ViewColaborador() {
           </Card>
         ))}
       </Group>
-      <Pagination
-        value={currentPage}
-        onChange={page => {
-          setCurrentPage(page)
-          setPagination({ ...pagination, pageIndex: page - 1 })
-        }}
-        total={totalPage}
-        position="right"
-        mt={'0.5rem'}
+      <Paginacao
+        page={event => handleChange(event, 'pagina')}
+        totalPage={totalPage}
       />
     </Card>
   )
