@@ -456,9 +456,9 @@ export default function ColaboradorList() {
       titleWarning: t('components.warning.alert'),
       descriptionWarning:
         status === 'Ativo'
-          ? 'Uma vez desativado, este colaborador não poderá ser' +
+          ? 'Uma vez desativado, este colaborador não poderá ser ' +
             'pesquisado ou utilizado no sistema até ser reativado.'
-          : 'Uma vez ativado, este colaborador estará disponível no' +
+          : 'Uma vez ativado, este colaborador estará disponível no ' +
             'sistema e poderá ser pesquisado e utilizado.',
     })
     setOpenModal(true)
@@ -533,7 +533,7 @@ export default function ColaboradorList() {
           )}
           <Button
             disabled={validatePermissionRole()}
-            leftIcon={<IconUserPlus size={16} />}
+            leftIcon={<IconUserPlus size={20} />}
             onClick={() => navigate.push('colaborador/cadastro')}
           >
             Cadastrar

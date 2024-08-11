@@ -89,20 +89,25 @@ public class ColaboradorService {
             throw new IllegalArgumentException(messageSource.getMessage("error.isEmpty", null, LocaleInteface.BR));
         }
         Pageable pageable = createPageableFromFiltro(filtro, "nome");
-        Specification<Colaborador> specification = GenericSpecification.
-                <Colaborador>filterByProperty("nome",filtro.getNome())
-                .and(filterByProperty("sobrenome",filtro.getSobrenome()))
-                .and(filterByProperty("cpf",filtro.getCpf()))
-                .and(filterByIdWithJoin("endereco","estado",filtro.getEstado()))
-                .and(filterByProperty("cnpjEmpresa","estado",filtro.getCnpj()))
-                .and(filterByIdWithJoin("endereco","cidade" ,filtro.getCidade()))
-                .and(filterByIdWithJoin("cargo","nome" ,filtro.getCargo()))
-                .and(filterByPropertyInterger("status", filtro.getAtivo()));
-        Page<Colaborador> colaboradorPage = colaboradorRepository.findAll(specification, pageable);
-        if (Objects.nonNull(colaboradorPage) && !colaboradorPage.getContent().isEmpty()) {
+        if (Objects.isNull(filtro.getGlobal()) || filtro.getGlobal().isEmpty()) {
+            Specification<Colaborador> specification = GenericSpecification.
+                    <Colaborador>filterByProperty("nome",filtro.getNome())
+                    .and(filterByProperty("sobrenome",filtro.getSobrenome()))
+                    .and(filterByProperty("cpf",filtro.getCpf()))
+                    .and(filterByIdWithJoin("endereco","estado",filtro.getEstado()))
+                    .and(filterByProperty("cnpjEmpresa","estado",filtro.getCnpj()))
+                    .and(filterByIdWithJoin("endereco","cidade" ,filtro.getCidade()))
+                    .and(filterByIdWithJoin("cargo","nome" ,filtro.getCargo()))
+                    .and(filterByPropertyInterger("status", filtro.getAtivo()));
+            Page<Colaborador> colaboradorPage = colaboradorRepository.findAll(specification, pageable);
+            if (Objects.nonNull(colaboradorPage) && !colaboradorPage.getContent().isEmpty()) {
+                return colaboradorPage.map(ColaboradorDto::new);
+            }
+            return Page.empty();
+        } else {
+            Page<Colaborador> colaboradorPage = colaboradorRepository.findAll(pageable, filtro.getGlobal(), filtro.getCnpj());
             return colaboradorPage.map(ColaboradorDto::new);
         }
-        return Page.empty();
     }
 
     public void deleteById(@NotNull @Positive Long id) {

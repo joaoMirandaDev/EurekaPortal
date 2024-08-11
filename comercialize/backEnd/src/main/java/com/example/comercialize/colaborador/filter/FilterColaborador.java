@@ -32,6 +32,7 @@ public class FilterColaborador {
     private String cpf;
     private Integer ativo;
     private String cargo;
+    private String global;
 
 
     public FilterColaborador(String id, boolean desc, int tamanhoPagina, int pagina) {

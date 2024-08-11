@@ -10,6 +10,7 @@ export default interface IFiltoColaborador {
   cargo?: string
   cpf?: string
   estado?: string
+  global?: string
   cidade?: string
   ativo?: number | string | null
 }
