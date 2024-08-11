@@ -100,7 +100,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           {icone && (
             <FontAwesomeIcon icon={faClose} style={{ marginRight: '10px' }} />
           )}
-          Resetar Pesquisa
+          Resetar
         </Button>
       )}
     </Flex>
