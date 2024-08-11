@@ -39,7 +39,7 @@ export default function ViewColaborador() {
     cnpj: Cookies.get(CNPJ),
     ativo: null,
     pagina: 0,
-    tamanhoPagina: 10,
+    tamanhoPagina: 18,
     id: 'nome',
     desc: false,
   })
@@ -62,13 +62,9 @@ export default function ViewColaborador() {
   }, [])
 
   useEffect(() => {
-    if (
-      pagination.pageIndex !== filtro.pagina ||
-      pagination.pageSize !== filtro.tamanhoPagina
-    ) {
+    if (pagination.pageIndex !== filtro.pagina) {
       const localFiltro = {
         ...filtro,
-        tamanhoPagina: pagination.pageSize,
         pagina: pagination.pageIndex,
       }
       setFiltro(localFiltro)
@@ -113,7 +109,7 @@ export default function ViewColaborador() {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Group position={windowWidth < 1300 ? 'center' : 'left'}>
+      <Group spacing="xs" position={windowWidth < 1300 ? 'center' : 'left'}>
         {dataCliente.map((val, index) => (
           <Card key={index} shadow="sm" radius="md" withBorder>
             <Card.Section>
