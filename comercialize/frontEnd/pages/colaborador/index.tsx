@@ -1,18 +1,26 @@
 import { ErrorNotification, SuccessNotification } from '@components/common'
 import { ModalWarning } from '@components/common/modalWarning'
 import PaginationTable from '@components/common/tabela/paginationTable'
+import ViewColaborador from '@components/pages/colaborador/list'
 import {
   ActionIcon,
   Avatar,
   Box,
   Button,
-  Divider,
   Flex,
+  Switch,
   Text,
   Tooltip,
 } from '@mantine/core'
 import { useTranslate } from '@refinedev/core'
-import { IconEdit, IconTrash, IconUserMinus, IconUserPlus } from '@tabler/icons'
+import {
+  IconEdit,
+  IconLayoutGrid,
+  IconList,
+  IconTrash,
+  IconUserMinus,
+  IconUserPlus,
+} from '@tabler/icons'
 import Cookies from 'js-cookie'
 import {
   MRT_ColumnDef,
@@ -30,11 +38,7 @@ import ImodalWarning from 'src/interfaces/ImodalWarning'
 import api from 'src/utils/Api'
 import { getImage } from 'src/utils/Arquivo'
 import { PAGE_INDEX, PAGE_SIZE } from 'src/utils/Constants'
-import {
-  formataCep,
-  formatarCPFCNPJ,
-  formatarTelefone,
-} from 'src/utils/FormatterUtils'
+import { formatarCPFCNPJ, formatarTelefone } from 'src/utils/FormatterUtils'
 import { FIND_ALL_BY_PAGE_COLABORADOR } from 'src/utils/Routes'
 import { validatePermissionRole } from 'src/utils/ValidatePermissionRole'
 
@@ -50,11 +54,13 @@ export default function ColaboradorList() {
     descriptionWarning: '',
     confirm: () => {},
   })
+  const [checked, setChecked] = useState(true)
   const navigate = useRouter()
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [columnFilters, setColumnFilters] = useState<IColaboradorProps[]>([])
   const [sorting, setSorting] = useState<MRT_SortingState>([])
   const [dataCliente, setDataCliente] = useState<IColaborador[]>([])
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [totalElements, setTotalElements] = useState<number>(0)
   const [pagination, setPagination] = useState<MRT_PaginationState>({
     pageIndex: PAGE_INDEX,
@@ -92,6 +98,16 @@ export default function ColaboradorList() {
     }
     setFiltro(val)
   }
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    if (window.innerWidth < 1200) {
+      setChecked(false)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   useEffect(() => {
     if (
       pagination.pageIndex !== filtro.pagina ||
@@ -259,7 +275,7 @@ export default function ColaboradorList() {
     () => [
       {
         accessorKey: 'nome',
-        header: t('pages.colaborador.components.table.nome'),
+        header: 'Nome',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -301,7 +317,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'sobrenome',
-        header: t('pages.colaborador.components.table.sobrenome'),
+        header: 'Sobrenome',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -316,7 +332,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'cpf',
-        header: t('pages.colaborador.components.table.cpf'),
+        header: 'Cpf',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -331,7 +347,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'cargo.nome',
-        header: t('pages.colaborador.components.table.cargo'),
+        header: 'Cargo',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -346,7 +362,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'endereco.estado',
-        header: t('pages.colaborador.components.table.estado'),
+        header: 'Estado',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -366,7 +382,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'endereco.cidade',
-        header: t('pages.colaborador.components.table.cidade'),
+        header: 'Cidade',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -386,7 +402,7 @@ export default function ColaboradorList() {
       },
       {
         accessorKey: 'status',
-        header: t('pages.colaborador.components.table.ativo'),
+        header: 'Status',
         enableSorting: true,
         enableColumnFilter: true,
         size: 15,
@@ -421,14 +437,15 @@ export default function ColaboradorList() {
         ),
       },
     ],
-    [t]
+    []
   )
 
   const openDeleteModal = (id: number) => {
     setModalConfig({
       confirm: val => confirmaExclusao(val, id),
-      titleWarning: t('components.warning.alert'),
-      descriptionWarning: t('components.warning.descriptionDeleteColaborador'),
+      titleWarning: 'Tem certeza ?',
+      descriptionWarning:
+        'Uma vez deletado, este colaborador será removido permanentemente e não poderá ser recuperado.',
     })
     setOpenModal(true)
   }
@@ -439,8 +456,10 @@ export default function ColaboradorList() {
       titleWarning: t('components.warning.alert'),
       descriptionWarning:
         status === 'Ativo'
-          ? t('components.warning.descriptionDeactivateColaborador')
-          : t('components.warning.descriptionActiveColaborador'),
+          ? 'Uma vez desativado, este colaborador não poderá ser' +
+            'pesquisado ou utilizado no sistema até ser reativado.'
+          : 'Uma vez ativado, este colaborador estará disponível no' +
+            'sistema e poderá ser pesquisado e utilizado.',
     })
     setOpenModal(true)
   }
@@ -449,203 +468,10 @@ export default function ColaboradorList() {
     navigate.push(`colaborador/editar/${id}`)
   }
 
-  const renderDetailPanel = ({ row }: { row: MRT_Row<IColaborador> }) => {
-    return (
-      <Flex>
-        <Box
-          w={'50%'}
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            gap: '16px',
-            padding: '16px',
-          }}
-        >
-          <Avatar
-            color="blue"
-            style={{ borderRadius: '100%' }}
-            size={150}
-            src={row.original.photo?.toString()}
-            alt="With default placeholder"
-          />
-          <Box sx={{ textAlign: 'center' }}>
-            <Text fw={'bold'}>
-              {row.original.nome} {row.original.sobrenome}
-            </Text>
-          </Box>
-        </Box>
-        <Divider size="xs" orientation="vertical" />
-        <Flex direction={'column'} w={'50%'}>
-          <Text align="center" fw={'bold'}>
-            {t('pages.colaborador.components.detailTable.dadosPessoais.title')}
-          </Text>
-          <Divider size="xs" mb={'0.5rem'} />
-          <Flex align={'start'} direction={'column'} ml={'1rem'}>
-            <Flex>
-              <Text fw={'bold'}>
-                {t(
-                  'pages.colaborador.components.detailTable.dadosPessoais.cpf'
-                )}
-              </Text>
-              <Text ml={'0.5rem'}>{row.original.cpf}</Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t(
-                  'pages.colaborador.components.detailTable.dadosPessoais.dataNascimento'
-                )}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.dataNascimento
-                  ? row.original.dataNascimento
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t(
-                  'pages.colaborador.components.detailTable.dadosPessoais.dataContratacao'
-                )}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.dataContratoInicial
-                  ? row.original.dataContratoInicial
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t(
-                  'pages.colaborador.components.detailTable.dadosPessoais.dataDemissao'
-                )}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.dataContratoFinal
-                  ? row.original.dataContratoFinal
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t(
-                  'pages.colaborador.components.detailTable.dadosPessoais.ativo'
-                )}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.status ? row.original.status : '-'}
-              </Text>
-            </Flex>
-            {(Cookies.get('role') == 'ADMIN' ||
-              Cookies.get('role') == 'PROPRIETARIO') && (
-              <Flex>
-                <Text fw={'bold'}>
-                  {t(
-                    'pages.colaborador.components.detailTable.dadosPessoais.salario'
-                  )}
-                </Text>
-                <Text ml={'0.5rem'}>
-                  {row.original.salario
-                    ? row.original.salario.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })
-                    : '-'}
-                </Text>
-              </Flex>
-            )}
-          </Flex>
-        </Flex>
-        <Divider size="xs" orientation="vertical" />
-        <Flex direction={'column'} w={'50%'}>
-          <Text fw={'bold'} align="center">
-            {t('pages.colaborador.components.detailTable.endereco.title')}
-          </Text>
-          <Divider size="xs" mb={'0.5rem'} />
-          <Flex align={'start'} direction={'column'} ml={'1rem'}>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.endereco.cidade')}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.endereco && row.original.endereco.cidade
-                  ? row.original.endereco && row.original.endereco.cidade
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.endereco.bairro')}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.endereco && row.original.endereco.bairro
-                  ? row.original.endereco.bairro
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>Estado:</Text>
-              <Text ml={'0.5rem'}>
-                {row.original.endereco && row.original.endereco.estado
-                  ? row.original.endereco.estado
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.endereco.numero')}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.endereco && row.original.endereco.numero
-                  ? row.original.endereco.numero
-                  : '-'}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.endereco.cep')}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.endereco && row.original.endereco.cep
-                  ? formataCep(row.original.endereco.cep)
-                  : '-'}
-              </Text>
-            </Flex>
-          </Flex>
-        </Flex>
-        <Divider size="xs" orientation="vertical" />
-        <Flex direction={'column'} w={'50%'}>
-          <Text fw={'bold'} align="center">
-            {t('pages.colaborador.components.detailTable.contato.title')}
-          </Text>
-          <Divider size="xs" mb={'0.5rem'} />
-          <Flex align={'start'} direction={'column'} ml={'1rem'}>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.contato.email')}
-              </Text>
-              <Text ml={'0.5rem'}>{row.original.email}</Text>
-            </Flex>
-            <Flex>
-              <Text fw={'bold'}>
-                {t('pages.colaborador.components.detailTable.contato.telefone')}
-              </Text>
-              <Text ml={'0.5rem'}>
-                {row.original.telefone
-                  ? formatarTelefone(row.original.telefone)
-                  : '-'}
-              </Text>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
-    )
-  }
-
   const rowActions = ({ row }: { row: MRT_Row<IColaborador> }) => (
     <Flex>
       {row.original.status === 'Ativo' && (
-        <Tooltip label={t('pages.colaborador.buttonEdit')}>
+        <Tooltip label="Editar">
           <ActionIcon
             disabled={validatePermissionRole()}
             size="sm"
@@ -658,13 +484,7 @@ export default function ColaboradorList() {
           </ActionIcon>
         </Tooltip>
       )}
-      <Tooltip
-        label={
-          row.original.status == 'Ativo'
-            ? t('pages.colaborador.disable')
-            : t('pages.colaborador.active')
-        }
-      >
+      <Tooltip label={row.original.status == 'Ativo' ? 'Ativar' : 'Desativar'}>
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
@@ -682,7 +502,7 @@ export default function ColaboradorList() {
           )}
         </ActionIcon>
       </Tooltip>
-      <Tooltip label={t('pages.colaborador.buttonDelete')}>
+      <Tooltip label="Deletar">
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
@@ -699,42 +519,51 @@ export default function ColaboradorList() {
 
   return (
     <>
-      <Flex justify={'space-between'} align={'center'} m={'1rem'}>
-        <Text fz={'1.5rem'} fw={'bold'}>
-          {t('pages.colaborador.titleListagem')}
-        </Text>
-        <Flex>
+      <Flex justify={'flex-end'} align={'center'} mb={'1rem'}>
+        <Flex align={'center'}>
+          <Switch
+            disabled={windowWidth < 1200}
+            checked={checked}
+            mr={'0.5rem'}
+            onChange={event => setChecked(event.currentTarget.checked)}
+            size="lg"
+            onLabel={<IconList size="1rem" stroke={2.5} />}
+            offLabel={<IconLayoutGrid size="1rem" stroke={2.5} />}
+          />
           <Button
             disabled={validatePermissionRole()}
             leftIcon={<IconUserPlus size={16} />}
             onClick={() => navigate.push('colaborador/cadastro')}
           >
-            {t('pages.colaborador.buttonCadastro')}
+            Novo Colaborador
           </Button>
         </Flex>
       </Flex>
-      <PaginationTable
-        setSorting={setSorting}
-        columns={columns}
-        rowActions={rowActions}
-        renderDetailPanel={renderDetailPanel}
-        setPagination={setPagination}
-        enableRowActions
-        enableSorting
-        enableClickToCopy
-        onColumnFiltersChange={setColumnFilters}
-        positionActionsColumn="last"
-        data={dataCliente}
-        state={{
-          columnFilters,
-          sorting,
-          pagination: {
-            pageIndex: filtro.pagina,
-            pageSize: filtro.tamanhoPagina,
-          },
-        }}
-        rowCount={totalElements}
-      />
+      {checked ? (
+        <PaginationTable
+          setSorting={setSorting}
+          columns={columns}
+          rowActions={rowActions}
+          setPagination={setPagination}
+          enableRowActions
+          enableSorting
+          enableClickToCopy
+          onColumnFiltersChange={setColumnFilters}
+          positionActionsColumn="last"
+          data={dataCliente}
+          state={{
+            columnFilters,
+            sorting,
+            pagination: {
+              pageIndex: filtro.pagina,
+              pageSize: filtro.tamanhoPagina,
+            },
+          }}
+          rowCount={totalElements}
+        />
+      ) : (
+        <ViewColaborador />
+      )}
       <ModalWarning
         confirm={modalConfig.confirm}
         titleWarning={modalConfig.titleWarning}

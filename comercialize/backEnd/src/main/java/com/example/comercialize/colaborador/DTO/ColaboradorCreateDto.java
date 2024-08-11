@@ -32,6 +32,8 @@ public class ColaboradorCreateDto {
     private String rg;
     @NotEmpty
     private String telefone;
+    @NotEmpty
+    private String cnpjEmpresa;
     private CargoDto cargo;
     private String email;
     private Double salario;

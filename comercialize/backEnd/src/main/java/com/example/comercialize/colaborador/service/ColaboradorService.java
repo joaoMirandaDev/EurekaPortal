@@ -94,6 +94,7 @@ public class ColaboradorService {
                 .and(filterByProperty("sobrenome",filtro.getSobrenome()))
                 .and(filterByProperty("cpf",filtro.getCpf()))
                 .and(filterByIdWithJoin("endereco","estado",filtro.getEstado()))
+                .and(filterByProperty("cnpjEmpresa","estado",filtro.getCnpj()))
                 .and(filterByIdWithJoin("endereco","cidade" ,filtro.getCidade()))
                 .and(filterByIdWithJoin("cargo","nome" ,filtro.getCargo()))
                 .and(filterByPropertyInterger("status", filtro.getAtivo()));

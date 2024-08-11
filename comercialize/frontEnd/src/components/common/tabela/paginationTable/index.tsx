@@ -19,10 +19,6 @@ type Tabela<T extends Record<string, any>> = {
   setPagination: React.Dispatch<React.SetStateAction<MRT_PaginationState>>
   enablePinning?: boolean
   enableClickToCopy?: boolean
-  renderDetailPanel: (props: {
-    row: MRT_Row<T>
-    table: MRT_TableInstance<T>
-  }) => ReactNode
   initialState?: Partial<MRT_TableState<T>>
   onColumnFiltersChange: any
   enableRowActions?: boolean
@@ -44,7 +40,6 @@ const PaginationTable = <T extends Record<string, any>>({
   setPagination,
   initialState,
   enableClickToCopy,
-  renderDetailPanel,
   onColumnFiltersChange,
   enablePinning = false,
   state,
@@ -84,12 +79,10 @@ const PaginationTable = <T extends Record<string, any>>({
     enableColumnFilterModes: true,
     enableFacetedValues: true,
     enableRowSelection: false,
-    renderDetailPanel: renderDetailPanel,
     paginationDisplayMode: 'pages',
     enableFilterMatchHighlighting: false,
     positionToolbarAlertBanner: 'bottom',
     mantinePaginationProps: {
-      radius: 'xl',
       size: 'lg',
     },
     renderRowActions: rowActions,
