@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DocumentosRepository extends JpaRepository<Documentos,Integer> {
+public interface DocumentosRepository extends JpaRepository<Documentos,Long> {
     @Query(nativeQuery = true, value = "select * FROM financeiro.arquivos_upload WHERE id= :id")
     Optional<Documentos> find(Short id);
 

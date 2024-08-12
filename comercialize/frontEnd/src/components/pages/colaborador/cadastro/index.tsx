@@ -51,6 +51,14 @@ interface Colaborador {
 }
 const Cadastro: React.FC<Colaborador> = ({ id }) => {
   const t = useTranslate()
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [photo, setImagem] = useState<string | null>(null)
   const [dataCargo, setDataCargo] = useState<SelectItem[]>([])
   const resetRef = useRef<() => void>(null)
@@ -199,6 +207,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
       new Date(value.data.dataContratoInicial)
     )
     form.setFieldValue('dataNascimento', new Date(value.data.dataNascimento))
+    form.setFieldValue('cnpjEmpresa', Cookies.get('cnpj')!)
   }
 
   const uploadPhoto = async (file: File) => {
@@ -262,7 +271,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             value={form.values.nome}
             withAsterisk
             size="xs"
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             onChange={event => handleChange(event.target.value, 'nome')}
             label={t('pages.colaborador.cadastro.dadosPessoais.nome')}
             placeholder={t(
@@ -275,7 +284,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             {...form.getInputProps('sobrenome')}
             size="xs"
             defaultValue={form.values?.sobrenome}
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             label={t('pages.colaborador.cadastro.dadosPessoais.sobrenome')}
             onChange={event => handleChange(event.target.value, 'sobrenome')}
             placeholder={t(
@@ -286,7 +295,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <Select
             {...form.getInputProps('sexo')}
             size={'xs'}
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             label={t('pages.colaborador.cadastro.dadosPessoais.sexo')}
             placeholder={t(
               'pages.colaborador.cadastro.dadosPessoais.inputSexo'
@@ -302,7 +311,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             size="xs"
             {...form.getInputProps('cpf')}
             value={formatarCPFCNPJ(form.values?.cpf)}
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             onChange={event =>
               handleChange(removeformatarCPFCNPJ(event.target.value), 'cpf')
             }
@@ -312,7 +321,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('rg')}
             size="xs"
             onChange={event =>
@@ -333,7 +342,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
               onChange={val => handleChange(val, 'dataNascimento')}
               withAsterisk={false}
               clearable
-              w={'15.625rem'}
+              w={windowWidth < 1280 ? '9.375rem' : '15.625rem'}
               size="xs"
               label={t(
                 'pages.colaborador.cadastro.dadosPessoais.dataNascimento'
@@ -357,7 +366,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
                 'pages.colaborador.cadastro.dadosPessoais.inputDataContratacao'
               )}
               maxDate={new Date()}
-              w={'15.625rem'}
+              w={windowWidth < 1280 ? '9.375rem' : '15.625rem'}
             />
           </DatesProvider>
         </Group>
@@ -375,7 +384,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <TextInput
             withAsterisk
             size="xs"
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.cep')}
             defaultValue={form.values?.endereco.cep}
             onBlur={e => {
@@ -390,7 +399,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <TextInput
             withAsterisk
             size="xs"
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.cidade')}
             defaultValue={form.values?.endereco.cidade}
             onChange={event =>
@@ -404,7 +413,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.estado')}
             defaultValue={form.values?.endereco.estado}
@@ -419,7 +428,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.bairro')}
             defaultValue={form.values?.endereco.bairro}
@@ -435,7 +444,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <TextInput
             withAsterisk
             size="xs"
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.rua')}
             onChange={event => handleChange(event.target.value, 'endereco.rua')}
             defaultValue={form.values?.endereco.rua}
@@ -447,7 +456,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.numero')}
             defaultValue={form.values?.endereco.numero}
@@ -473,7 +482,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
         <Group>
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('telefone')}
             size="xs"
             value={formatarTelefone(form.values?.telefone || '') || ''}
@@ -490,7 +499,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           />
           <TextInput
             withAsterisk
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('email')}
             value={formatarTelefone(form.values?.email)}
@@ -515,7 +524,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <Select
             {...form.getInputProps('cargo.id')}
             size={'xs'}
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             onChange={event => handleChange(event, 'cargo.id')}
             label={t('pages.colaborador.cadastro.administrativo.cargo')}
             placeholder={t(
@@ -528,7 +537,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             hideControls
             {...form.getInputProps('salario')}
             min={0}
-            w={250}
+            w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             precision={2}
             decimalSeparator=","
@@ -571,7 +580,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
   }
 
   return (
-    <form onSubmit={form.onSubmit(() => (!id ? handleSubmit() : editar()))}>
+    <form onSubmit={form.onSubmit(() => (!id ? handleSubmit() : editar()), error => console.log(error))}>
       {renderDadosPessoais()}
       {renderDadosEndereco()}
       {renderContatos()}

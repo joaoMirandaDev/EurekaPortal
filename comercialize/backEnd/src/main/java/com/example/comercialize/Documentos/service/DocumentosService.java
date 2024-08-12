@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -86,6 +89,11 @@ public class DocumentosService {
 
         return destino + chave;
 
+    }
+
+    public void deleteById(@Positive @NotNull Long id, @NotEmpty String route) throws IOException {
+        documentosRepository.deleteById(id);
+        this.deleteDocumentoByPath(route);
     }
 
     //Salva na pasta definitiva e retorna o caminho cripto
@@ -181,6 +189,7 @@ public class DocumentosService {
                     String route = this.moveFileToPaste(file);
                     this.deleteDocumentoByPath(documentos.getRoute());
                     documentos.setRoute(route);
+                    documentos.setStatus(0);
                     documentosRepository.save(documentos);
                 } catch (IOException e) {
                     throw e;

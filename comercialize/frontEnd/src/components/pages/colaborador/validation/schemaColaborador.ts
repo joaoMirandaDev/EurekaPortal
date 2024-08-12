@@ -37,8 +37,8 @@ const validaColaborador = () => {
       .nonempty({ message: t('components.error.requiredField') }),
     file: z
       .object({
-        name: z.optional(z.string()),
-        key: z.optional(z.string()),
+        name: z.optional(z.string()).nullable(),
+        key: z.optional(z.string()).nullable(),
       })
       .optional(),
     endereco: z.object({

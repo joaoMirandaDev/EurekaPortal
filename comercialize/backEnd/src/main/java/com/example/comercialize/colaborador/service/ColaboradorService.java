@@ -16,6 +16,7 @@ import com.example.comercialize.colaborador.repository.ColaboradorRepository;
 import com.example.comercialize.usuario.service.UsuarioService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -39,6 +40,7 @@ import static com.example.comercialize.Utils.genericClass.GenericSpecification.*
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ColaboradorService {
 
     private final MessageSource messageSource;
@@ -118,18 +120,26 @@ public class ColaboradorService {
         }
     }
 
+
     public void edit(ColaboradorCreateDto dto) throws Exception {
         try {
-            Colaborador colaborador = this.findById(dto.getId());
-            Documentos documentos = new Documentos();
+         Colaborador colaborador = modelMapper.map(dto,Colaborador.class);
+         Documentos documentos;
             if (Objects.nonNull(dto.getFile()) && Objects.nonNull(dto.getFile().getKey()) && !dto.getFile().getKey().isEmpty() ) {
                 documentos = documentosService.update(dto.getFile(), colaborador.getDocumentos());
+                colaborador.setDocumentos(documentos);
+            } else {
+                Colaborador col =  this.findById(dto.getId());
+                Long idDoc = col.getDocumentos().getId();
+                String routeDoc = col.getDocumentos().getRoute();
+                colaborador.setDocumentos(null);
+                colaboradorRepository.save(colaborador);
+                documentosService.deleteById(idDoc, routeDoc);
             }
-            colaborador = modelMapper.map(dto,Colaborador.class);
-            colaborador.setDocumentos(documentos);
             enderecoService.update(dto.getEndereco());
             colaboradorRepository.save(colaborador);
         } catch (DataAccessException e) {
+            log.info(e.getMessage());
             throw new Exception(messageSource.getMessage("error.save", null, LocaleInteface.BR),e);
         }
     }
