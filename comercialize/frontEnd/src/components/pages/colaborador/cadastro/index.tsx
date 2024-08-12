@@ -580,7 +580,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
   }
 
   return (
-    <form onSubmit={form.onSubmit(() => (!id ? handleSubmit() : editar()), error => console.log(error))}>
+    <form onSubmit={form.onSubmit(() => (!id ? handleSubmit() : editar()))}>
       {renderDadosPessoais()}
       {renderDadosEndereco()}
       {renderContatos()}
