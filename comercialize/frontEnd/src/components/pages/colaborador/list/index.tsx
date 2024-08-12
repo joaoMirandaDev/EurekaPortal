@@ -267,7 +267,7 @@ export default function ViewColaborador() {
                 </Flex>
               </Card.Section>
               <Flex justify={'center'} align={'center'}>
-                <Text weight={500}>{val.nome + ' ' + val.sobrenome!}</Text>
+                <Text fw={'bold'}>{val.nome + ' ' + val.sobrenome!}</Text>
                 <Badge
                   ml={'0.5rem'}
                   color={val.status === 'Ativo' ? 'green' : 'red'}
@@ -276,7 +276,7 @@ export default function ViewColaborador() {
                   {val.status}
                 </Badge>
               </Flex>
-              <Text weight={500}>Cpf: {formatarCPFCNPJ(val.cpf!)}</Text>
+              <Text fw={'bold'}>Cpf: {formatarCPFCNPJ(val.cpf!)}</Text>
             </Card>
           ))}
         </Group>
