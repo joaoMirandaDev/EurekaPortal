@@ -517,6 +517,13 @@ export default function ColaboradorList() {
     </Flex>
   )
 
+  const changeCheck = (event: boolean) => {
+    if (event) {
+      findAllColaborador()
+    }
+    setChecked(event)
+  }
+
   return (
     <>
       <Flex justify={'flex-end'} align={'center'} mb={'1rem'}>
@@ -525,7 +532,7 @@ export default function ColaboradorList() {
             <Switch
               checked={checked}
               mr={'0.5rem'}
-              onChange={event => setChecked(event.currentTarget.checked)}
+              onChange={event => changeCheck(event.currentTarget.checked)}
               size="lg"
               onLabel={<IconList size="1rem" stroke={2.5} />}
               offLabel={<IconLayoutGrid size="1rem" stroke={2.5} />}
