@@ -213,10 +213,16 @@ export default function ViewColaborador() {
           icone={true}
           onDataFilter={onDataFilter}
         />
-        <Text color="red" fw={'bold'} size={'xs'} mt={'0.5rem'} mb={'0.5rem'}>
-          O método de busca global, permite buscar nome, sobrenome e cpf.
-        </Text>
-        <Group spacing="xs" position={windowWidth < 1280 ? 'center' : 'left'}>
+        {windowWidth < 1280 && (
+          <Text fw={'bold'} size={'xs'} mt={'0.5rem'} mb={'0.5rem'}>
+            O método de busca global, permite buscar nome, sobrenome e cpf.
+          </Text>
+        )}
+        <Group
+          spacing="xs"
+          mt={'0.5rem'}
+          position={windowWidth < 1280 ? 'center' : 'left'}
+        >
           {dataCliente.map((val, index) => (
             <Card key={index} shadow="sm" radius="md" withBorder>
               <Card.Section>

@@ -83,7 +83,7 @@ const PaginationTable = <T extends Record<string, any>>({
     enableFilterMatchHighlighting: false,
     positionToolbarAlertBanner: 'bottom',
     mantinePaginationProps: {
-      size: 'lg',
+      size: 'md',
     },
     renderRowActions: rowActions,
     onPaginationChange: setPagination,
