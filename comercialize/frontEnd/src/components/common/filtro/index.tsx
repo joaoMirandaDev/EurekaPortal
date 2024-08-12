@@ -39,7 +39,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <Flex
       maw={'100%'}
-      mb={'20px'}
       style={{
         alignItems: 'center',
       }}

@@ -213,6 +213,9 @@ export default function ViewColaborador() {
           icone={true}
           onDataFilter={onDataFilter}
         />
+        <Text color="red" fw={'bold'} size={'xs'} mt={'0.5rem'} mb={'0.5rem'}>
+          O método de busca global, permite buscar nome, sobrenome e cpf.
+        </Text>
         <Group spacing="xs" position={windowWidth < 1280 ? 'center' : 'left'}>
           {dataCliente.map((val, index) => (
             <Card key={index} shadow="sm" radius="md" withBorder>
@@ -232,13 +235,15 @@ export default function ViewColaborador() {
                       </ActionIcon>
                     </Menu.Target>
                     <Menu.Dropdown>
-                      <Menu.Item
-                        icon={<IconEdit size={18} />}
-                        onClick={() => editar(val.id!)}
-                        color="#228BE6"
-                      >
-                        <Text color="blue"> Editar</Text>
-                      </Menu.Item>
+                      {val.status === 'Ativo' && (
+                        <Menu.Item
+                          icon={<IconEdit size={18} />}
+                          onClick={() => editar(val.id!)}
+                          color="#228BE6"
+                        >
+                          <Text color="blue"> Editar</Text>
+                        </Menu.Item>
+                      )}
                       <Menu.Item
                         onClick={() => openDeactivateModal(val.id!, val.status)}
                         icon={
