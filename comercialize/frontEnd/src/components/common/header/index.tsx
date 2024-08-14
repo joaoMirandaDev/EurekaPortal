@@ -4,21 +4,31 @@ import {
   Group,
   Header as MantineHeader,
   Sx,
+  Text,
+  Tooltip,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
+import {
+  useActiveAuthProvider,
+  useGetIdentity,
+  useLogout,
+} from '@refinedev/core'
 import { RefineThemedLayoutV2HeaderProps } from '@refinedev/mantine'
-import { IconMoonStars, IconSun } from '@tabler/icons'
+import { IconLogout, IconMoonStars, IconSun } from '@tabler/icons'
 import React from 'react'
+import IUserLogin from 'src/interfaces/user'
+import { formatarCPFCNPJ } from 'src/utils/FormatterUtils'
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky,
 }) => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const theme = useMantineTheme()
+  const authProvider = useActiveAuthProvider()
   const dark = colorScheme === 'dark'
   const borderColor = dark ? theme.colors.dark[6] : theme.colors.gray[2]
-
+  const { data: user } = useGetIdentity<IUserLogin>()
   let stickyStyles: Sx = {}
   if (sticky) {
     stickyStyles = {
@@ -27,6 +37,9 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
       zIndex: 1,
     }
   }
+  const { mutate: mutateLogout } = useLogout({
+    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
+  })
 
   return (
     <MantineHeader
@@ -50,12 +63,31 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
         <Group>
           <ActionIcon
             variant="outline"
+            radius={'lg'}
             color={dark ? 'yellow' : 'primary'}
             onClick={() => toggleColorScheme()}
             title="Toggle color scheme"
           >
             {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
           </ActionIcon>
+          <Tooltip label={'Sair'}>
+            <ActionIcon
+              variant="outline"
+              radius={'lg'}
+              color={'red'}
+              onClick={() => mutateLogout()}
+            >
+              <IconLogout size={18} />
+            </ActionIcon>
+          </Tooltip>
+          <Flex direction={'column'} align={'center'}>
+            <Text fw={'bold'} ff={'cursive'}>
+              {user?.nameUser}
+            </Text>
+            <Text fw={'bold'} ff={'cursive'}>
+              {formatarCPFCNPJ(user?.cpf ? user?.cpf : '')}
+            </Text>
+          </Flex>
         </Group>
       </Flex>
     </MantineHeader>

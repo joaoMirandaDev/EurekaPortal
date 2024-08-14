@@ -10,14 +10,13 @@ import {
   FIND_BY_USUARIO_LOGIN,
   VALIDATOR_USUARIO,
 } from 'src/utils/Routes'
-import { getImage } from 'src/utils/Arquivo'
 
 const TOKEN_COOKIE_KEY: string = 'token'
 const USER_COOKIE_KEY: string = 'user'
 const CPF: string = 'cpf'
 const NAMEUSER: string = 'nome_user'
 const ROLE: string = 'role'
-const PHOTO_EMPRESA: string = 'photo_empresa'
+const NOME_FANTASIA: string = 'nome_fantasia'
 const CNPJ: string = 'cnpj'
 const ID_EMPRESA: string = 'id_empresa'
 
@@ -63,14 +62,7 @@ export const loginAuth = async (credentials: ILogin) => {
           )
           Cookies.set(NAMEUSER, response.data.userName)
           Cookies.set(ROLE, response.data.role.name)
-          let photo = null
-          if (
-            response.data.empresaDto.file &&
-            response.data.empresaDto.file.key
-          ) {
-            photo = await getImage(response.data.empresaDto.file.key!, 'Erro')
-            Cookies.set(PHOTO_EMPRESA, photo!.toString())
-          }
+          Cookies.set(NOME_FANTASIA, response.data.empresaDto.nomeFantasia!)
         })
     })
     .catch(() => {

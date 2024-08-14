@@ -31,9 +31,14 @@ import {
   Divider,
   Button,
   Text,
-  Image,
 } from '@mantine/core'
-import { IconList, IconMenu2, IconDashboard, IconLogout } from '@tabler/icons'
+import {
+  IconList,
+  IconMenu2,
+  IconDashboard,
+  IconLogout,
+  IconRadar2,
+} from '@tabler/icons'
 import { RefineLayoutSiderProps } from '@refinedev/mantine'
 import IUser from 'src/interfaces/user'
 import { formatarCPFCNPJ } from 'src/utils/FormatterUtils'
@@ -245,18 +250,16 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
           >
             <Navbar.Section>
               <Flex direction={'column'} align={'center'}>
-                <Image
-                  height={120}
-                  width={200}
-                  src={user?.photoEmpresa}
-                  alt="With custom placeholder"
-                  withPlaceholder
-                  placeholder={<Text align="center">Sem imagem</Text>}
-                />
+                <Flex align={'center'}>
+                  <IconRadar2 />
+                  <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
+                    Comercialize
+                  </Text>
+                </Flex>
                 <Text fw={'bold'}>
                   {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
                 </Text>
-                <Text fw={'bold'}>{user?.nameUser}</Text>
+                <Text fw={'bold'}>{user?.nomeFantasia}</Text>
               </Flex>
             </Navbar.Section>
             <Divider />
@@ -302,38 +305,23 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
         >
           <Navbar.Section>
             <Flex direction={'column'} align={'center'}>
-              <Image
-                height={120}
-                width={200}
-                src={user?.photoEmpresa}
-                alt="With custom placeholder"
-                withPlaceholder
-                placeholder={
-                  <Text align="center">
-                    This image contained the meaning of life
-                  </Text>
-                }
-              />
-              <Text fw={'bold'}>
+              <Flex align={'center'}>
+                <IconRadar2 />
+                <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
+                  Comercialize
+                </Text>
+              </Flex>
+              <Text fw={'bold'} ff={'cursive'}>
                 {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
               </Text>
-              <Text fw={'bold'}>{user?.nameUser}</Text>
+              <Text ff={'cursive'} fw={'bold'}>
+                {user?.nomeFantasia}
+              </Text>
             </Flex>
           </Navbar.Section>
           <Divider />
           <Navbar.Section grow mt="sm" component={ScrollArea} mx="-xs" px="xs">
             {renderSider()}
-          </Navbar.Section>
-          <Divider />
-          <Navbar.Section>
-            <Button
-              radius={0}
-              fullWidth
-              onClick={() => mutateLogout()}
-              color="red"
-            >
-              <IconLogout size={18} /> {t('components.button.logout')}
-            </Button>
           </Navbar.Section>
         </Navbar>
       </MediaQuery>

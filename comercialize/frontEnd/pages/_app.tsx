@@ -106,7 +106,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
         cpf: Cookies.get('cpf'),
         nameUser: Cookies.get('nome_user'),
         role: Cookies.get('role'),
-        photoEmpresa: Cookies.get('photo_empresa'),
+        nomeFantasia: Cookies.get('nome_fantasia'),
       }
     },
     onError: async () => ({}),

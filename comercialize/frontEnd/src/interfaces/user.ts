@@ -3,5 +3,5 @@ export default interface IUserLogin {
   cpf?: string
   role?: string
   nameUser: string | number | null
-  photoEmpresa?: string
+  nomeFantasia?: string
 }
