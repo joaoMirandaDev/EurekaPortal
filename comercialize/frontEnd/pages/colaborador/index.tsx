@@ -475,7 +475,6 @@ export default function ColaboradorList() {
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
-          color="gray"
           variant="transparent"
           aria-label="Settings"
           onClick={() =>
@@ -490,7 +489,6 @@ export default function ColaboradorList() {
           <ActionIcon
             disabled={validatePermissionRole()}
             size="sm"
-            color="blue"
             variant="transparent"
             aria-label="Settings"
             onClick={() => editar(row.original.id!)}
@@ -503,7 +501,6 @@ export default function ColaboradorList() {
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
-          color={row.original.status == 'Ativo' ? 'red' : 'green'}
           variant="transparent"
           aria-label="Settings"
           onClick={() =>
@@ -521,7 +518,6 @@ export default function ColaboradorList() {
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
-          color="red"
           variant="transparent"
           aria-label="Settings"
           onClick={() => openDeleteModal(row.original.id!)}

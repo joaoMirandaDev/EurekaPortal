@@ -247,39 +247,36 @@ export default function ViewColaborador() {
                         onClick={() =>
                           navigate.push(`colaborador/visualizar/${val.id}`)
                         }
-                        color="#e9ecef"
                       >
-                        <Text color="#e9ecef">Visualizar</Text>
+                        <Text>Visualizar</Text>
                       </Menu.Item>
                       {val.status === 'Ativo' && (
                         <Menu.Item
                           icon={<IconEdit size={18} />}
                           onClick={() => editar(val.id!)}
-                          color="#228BE6"
                         >
-                          <Text color="blue"> Editar</Text>
+                          <Text> Editar</Text>
                         </Menu.Item>
                       )}
                       <Menu.Item
                         onClick={() => openDeactivateModal(val.id!, val.status)}
                         icon={
                           val.status === 'Ativo' ? (
-                            <IconUserMinus color="#fa5252" size={18} />
+                            <IconUserMinus size={18} />
                           ) : (
-                            <IconUserPlus color="#40c057" size={18} />
+                            <IconUserPlus size={18} />
                           )
                         }
                       >
                         {val.status !== 'Ativo' ? (
-                          <Text color="green">Ativar</Text>
+                          <Text>Ativar</Text>
                         ) : (
-                          <Text color="red">Desativar</Text>
+                          <Text>Desativar</Text>
                         )}
                       </Menu.Item>
                       <Menu.Item
                         onClick={() => openDeleteModal(val.id!)}
                         icon={<IconTrash size={18} />}
-                        color="red"
                       >
                         Deletar
                       </Menu.Item>
