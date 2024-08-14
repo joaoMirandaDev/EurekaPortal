@@ -17,7 +17,13 @@ export default function ColaboradorCadastro() {
       <Text fz={'1.5rem'} fw={'bold'} m={'0 1rem 1rem 1rem'}>
         {t('pages.colaborador.cadastro.title')}
       </Text>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        m={'0 1rem 1rem 1rem '}
+      >
         {<Cadastro id={null} type={null} />}
       </Card>
     </Flex>
