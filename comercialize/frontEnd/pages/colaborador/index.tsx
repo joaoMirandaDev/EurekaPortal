@@ -15,6 +15,7 @@ import {
 import { useTranslate } from '@refinedev/core'
 import {
   IconEdit,
+  IconEye,
   IconLayoutGrid,
   IconList,
   IconTrash,
@@ -470,6 +471,20 @@ export default function ColaboradorList() {
 
   const rowActions = ({ row }: { row: MRT_Row<IColaborador> }) => (
     <Flex>
+      <Tooltip label="Visualizar">
+        <ActionIcon
+          disabled={validatePermissionRole()}
+          size="sm"
+          color="gray"
+          variant="transparent"
+          aria-label="Settings"
+          onClick={() =>
+            navigate.push(`colaborador/visualizar/${row.original.id}`)
+          }
+        >
+          <IconEye />
+        </ActionIcon>
+      </Tooltip>
       {row.original.status === 'Ativo' && (
         <Tooltip label="Editar">
           <ActionIcon

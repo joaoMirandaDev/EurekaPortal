@@ -1,21 +1,19 @@
 import Cadastro from '@components/pages/colaborador/cadastro'
 import { Card, Text } from '@mantine/core'
-import { useTranslate } from '@refinedev/core'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-export default function EditarFornecedor() {
+export default function VisualizarFornecedor() {
   const router = useRouter()
-  const t = useTranslate()
   const { id } = router.query
 
   return (
     <>
       <Text fz={'1.5rem'} fw={'bold'} m={'1rem'}>
-        {t('pages.colaborador.cadastro.titleEdit')}
+        Visualizar Colaborador
       </Text>
       <Card>
-        <Cadastro id={id} type={null} />
+        <Cadastro id={id} type={'visualizar'} />
       </Card>
     </>
   )

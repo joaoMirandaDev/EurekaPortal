@@ -31,7 +31,7 @@ import {
   IconDatabaseEdit,
   IconDatabasePlus,
 } from '@tabler/icons-react'
-import { IconTrash, IconUpload } from '@tabler/icons'
+import { IconArrowLeft, IconTrash, IconUpload } from '@tabler/icons'
 import {
   CREATE_COLABORADOR,
   FIND_ALL_CARGOS,
@@ -48,8 +48,9 @@ interface IFile {
 }
 interface Colaborador {
   id: string | string[] | undefined | null
+  type: string | null
 }
-const Cadastro: React.FC<Colaborador> = ({ id }) => {
+const Cadastro: React.FC<Colaborador> = ({ id, type }) => {
   const t = useTranslate()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   useEffect(() => {
@@ -243,24 +244,26 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
       <Flex mt={'1rem'} direction={'column'}>
         <Flex direction={'column'} align={'center'}>
           <Avatar color="blue" radius="xl" size={150} src={photo} alt="" />
-          <Flex mt={'0.5rem'}>
-            <FileButton
-              resetRef={resetRef}
-              onChange={file => uploadPhoto(file!)}
-              accept="image/png,image/jpeg"
-            >
-              {props => (
-                <ActionIcon color="blue" {...props}>
-                  {<IconUpload />}
+          {type !== 'visualizar' && (
+            <Flex mt={'0.5rem'}>
+              <FileButton
+                resetRef={resetRef}
+                onChange={file => uploadPhoto(file!)}
+                accept="image/png,image/jpeg"
+              >
+                {props => (
+                  <ActionIcon color="blue" {...props}>
+                    {<IconUpload />}
+                  </ActionIcon>
+                )}
+              </FileButton>
+              {photo && (
+                <ActionIcon onClick={() => resetImage()} color="red">
+                  {<IconTrash />}
                 </ActionIcon>
               )}
-            </FileButton>
-            {photo && (
-              <ActionIcon onClick={() => resetImage()} color="red">
-                {<IconTrash />}
-              </ActionIcon>
-            )}
-          </Flex>
+            </Flex>
+          )}
         </Flex>
         <Text fw={700}>
           {t('pages.colaborador.cadastro.dadosPessoais.title')}
@@ -268,6 +271,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
         <Group align={'center'}>
           <TextInput
             {...form.getInputProps('nome')}
+            disabled={type == 'visualizar'}
             value={form.values.nome}
             withAsterisk
             size="xs"
@@ -283,6 +287,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             withAsterisk
             {...form.getInputProps('sobrenome')}
             size="xs"
+            disabled={type == 'visualizar'}
             defaultValue={form.values?.sobrenome}
             w={windowWidth < 1280 ? 150 : 250}
             label={t('pages.colaborador.cadastro.dadosPessoais.sobrenome')}
@@ -295,6 +300,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <Select
             {...form.getInputProps('sexo')}
             size={'xs'}
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             label={t('pages.colaborador.cadastro.dadosPessoais.sexo')}
             placeholder={t(
@@ -315,11 +321,13 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             onChange={event =>
               handleChange(removeformatarCPFCNPJ(event.target.value), 'cpf')
             }
+            disabled={type == 'visualizar'}
             label={t('pages.colaborador.cadastro.dadosPessoais.cpf')}
             placeholder={t('pages.colaborador.cadastro.dadosPessoais.inputCpf')}
           />
 
           <TextInput
+            disabled={type == 'visualizar'}
             withAsterisk
             w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('rg')}
@@ -341,6 +349,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
               {...form.getInputProps('dataNascimento')}
               onChange={val => handleChange(val, 'dataNascimento')}
               withAsterisk={false}
+              disabled={type == 'visualizar'}
               clearable
               w={windowWidth < 1280 ? '9.375rem' : '15.625rem'}
               size="xs"
@@ -356,6 +365,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
               value={form.values.dataContratoInicial}
               {...form.getInputProps('dataContratoInicial')}
               withAsterisk={false}
+              disabled={type == 'visualizar'}
               size="xs"
               clearable
               onChange={val => handleChange(val, 'dataContratoInicial')}
@@ -383,6 +393,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
         <Group align={'center'}>
           <TextInput
             withAsterisk
+            disabled={type == 'visualizar'}
             size="xs"
             w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.cep')}
@@ -402,6 +413,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.cidade')}
             defaultValue={form.values?.endereco.cidade}
+            disabled={type == 'visualizar'}
             onChange={event =>
               handleChange(event.target.value, 'endereco.cidade')
             }
@@ -413,6 +425,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.estado')}
@@ -428,6 +441,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.bairro')}
@@ -444,6 +458,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <TextInput
             withAsterisk
             size="xs"
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('endereco.rua')}
             onChange={event => handleChange(event.target.value, 'endereco.rua')}
@@ -456,6 +471,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
 
           <TextInput
             withAsterisk
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             size="xs"
             {...form.getInputProps('endereco.numero')}
@@ -481,6 +497,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
         </Text>
         <Group>
           <TextInput
+            disabled={type == 'visualizar'}
             withAsterisk
             w={windowWidth < 1280 ? 150 : 250}
             {...form.getInputProps('telefone')}
@@ -501,6 +518,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             withAsterisk
             w={windowWidth < 1280 ? 150 : 250}
             size="xs"
+            disabled={type == 'visualizar'}
             {...form.getInputProps('email')}
             value={formatarTelefone(form.values?.email)}
             onChange={event => handleChange(event.target.value, 'email')}
@@ -524,6 +542,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
           <Select
             {...form.getInputProps('cargo.id')}
             size={'xs'}
+            disabled={type == 'visualizar'}
             w={windowWidth < 1280 ? 150 : 250}
             onChange={event => handleChange(event, 'cargo.id')}
             label={t('pages.colaborador.cadastro.administrativo.cargo')}
@@ -541,6 +560,7 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
             size="xs"
             precision={2}
             decimalSeparator=","
+            disabled={type == 'visualizar'}
             thousandsSeparator="."
             value={form.values?.salario}
             onChange={event => handleChange(event, 'salario')}
@@ -559,21 +579,25 @@ const Cadastro: React.FC<Colaborador> = ({ id }) => {
       <>
         <Flex mt={20} bottom={0} pos={'relative'} justify={'space-between'}>
           <Button
-            leftIcon={<IconCircleXFilled />}
-            color="red"
+            leftIcon={
+              type === 'visualizar' ? <IconArrowLeft /> : <IconCircleXFilled />
+            }
+            color={type === 'visualizar' ? '' : 'red'}
             onClick={() => navigate.push('/colaborador')}
           >
-            {t('components.button.cancelar')}
+            {type === 'visualizar' ? 'Voltar' : t('components.button.cancelar')}
           </Button>
-          <Button
-            leftIcon={!id ? <IconDatabasePlus /> : <IconDatabaseEdit />}
-            type="submit"
-            color="green"
-          >
-            {!id
-              ? t('components.button.salvar')
-              : t('components.button.editar')}
-          </Button>
+          {type !== 'visualizar' && (
+            <Button
+              leftIcon={!id ? <IconDatabasePlus /> : <IconDatabaseEdit />}
+              type="submit"
+              color="green"
+            >
+              {!id
+                ? t('components.button.salvar')
+                : t('components.button.editar')}
+            </Button>
+          )}
         </Flex>
       </>
     )

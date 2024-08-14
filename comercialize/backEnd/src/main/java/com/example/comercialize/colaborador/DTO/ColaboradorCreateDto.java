@@ -4,6 +4,7 @@ import com.example.comercialize.Documentos.DTO.DocumentosDTO;
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Endereco.Dto.EnderecoDTO;
 import com.example.comercialize.cargo.DTO.CargoDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

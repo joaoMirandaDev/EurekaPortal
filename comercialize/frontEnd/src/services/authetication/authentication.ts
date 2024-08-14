@@ -69,7 +69,7 @@ export const loginAuth = async (credentials: ILogin) => {
             response.data.empresaDto.file.key
           ) {
             photo = await getImage(response.data.empresaDto.file.key!, 'Erro')
-            Cookies.set(PHOTO_EMPRESA, photo!)
+            Cookies.set(PHOTO_EMPRESA, photo!.toString())
           }
         })
     })

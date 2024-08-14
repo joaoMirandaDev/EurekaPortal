@@ -18,7 +18,7 @@ export default function ColaboradorCadastro() {
         {t('pages.colaborador.cadastro.title')}
       </Text>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        {<Cadastro id={null} />}
+        {<Cadastro id={null} type={null} />}
       </Card>
     </Flex>
   )

@@ -15,6 +15,7 @@ import {
 import {
   IconDots,
   IconEdit,
+  IconEye,
   IconTrash,
   IconUserMinus,
   IconUserPlus,
@@ -220,7 +221,7 @@ export default function ViewColaborador() {
         )}
         <Group
           spacing="xs"
-          mt={'0.5rem'}
+          mt={'1rem'}
           position={windowWidth < 1280 ? 'center' : 'left'}
         >
           {dataCliente.map((val, index) => (
@@ -241,6 +242,15 @@ export default function ViewColaborador() {
                       </ActionIcon>
                     </Menu.Target>
                     <Menu.Dropdown>
+                      <Menu.Item
+                        icon={<IconEye size={18} />}
+                        onClick={() =>
+                          navigate.push(`colaborador/visualizar/${val.id}`)
+                        }
+                        color="#e9ecef"
+                      >
+                        <Text color="#e9ecef">Visualizar</Text>
+                      </Menu.Item>
                       {val.status === 'Ativo' && (
                         <Menu.Item
                           icon={<IconEdit size={18} />}
@@ -277,17 +287,18 @@ export default function ViewColaborador() {
                   </Menu>
                 </Flex>
               </Card.Section>
-              <Flex justify={'center'} align={'center'}>
+              <Flex align={'center'}>
                 <Text fw={'bold'}>{val.nome + ' ' + val.sobrenome!}</Text>
+              </Flex>
+              <Text fw={'bold'}>Cpf: {formatarCPFCNPJ(val.cpf!)}</Text>
+              <Flex justify={'center'} align={'center'}>
                 <Badge
-                  ml={'0.5rem'}
                   color={val.status === 'Ativo' ? 'green' : 'red'}
                   variant="light"
                 >
                   {val.status}
                 </Badge>
               </Flex>
-              <Text fw={'bold'}>Cpf: {formatarCPFCNPJ(val.cpf!)}</Text>
             </Card>
           ))}
         </Group>
