@@ -29,8 +29,8 @@ import {
   Styles,
   Flex,
   Divider,
-  Button,
   Text,
+  Avatar,
 } from '@mantine/core'
 import {
   IconList,
@@ -205,8 +205,7 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
     }
     return (
       <>
-        {dashboard}
-        {items}
+        <Text fw={'bold'}>{items}</Text>
       </>
     )
   }
@@ -249,33 +248,32 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
             }}
           >
             <Navbar.Section>
-              <Flex direction={'column'} align={'center'}>
-                <Flex align={'center'}>
-                  <IconRadar2 />
-                  <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
-                    Comercialize
+              <Avatar mr={'0.5rem'} h={'100px'} color="blue" w={'100%'}>
+                <Flex direction={'column'} align={'center'}>
+                  <Flex align={'center'}>
+                    <IconRadar2 />
+                    <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
+                      Comercialize
+                    </Text>
+                  </Flex>
+                  <Text fw={'bold'} ff={'cursive'}>
+                    {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
+                  </Text>
+                  <Text ff={'cursive'} fw={'bold'}>
+                    {user?.nomeFantasia}
                   </Text>
                 </Flex>
-                <Text fw={'bold'}>
-                  {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
-                </Text>
-                <Text fw={'bold'}>{user?.nomeFantasia}</Text>
-              </Flex>
+              </Avatar>
             </Navbar.Section>
-            <Divider />
-            <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+            <Divider size="lg" />
+            <Navbar.Section
+              mt={'0.5rem'}
+              grow
+              component={ScrollArea}
+              mx="-xs"
+              px="xs"
+            >
               {renderSider()}
-            </Navbar.Section>
-            <Divider />
-            <Navbar.Section mb={0}>
-              <Button
-                radius={0}
-                fullWidth
-                onClick={() => mutateLogout()}
-                color="red"
-              >
-                <IconLogout size={18} /> {t('components.button.logout')}
-              </Button>
             </Navbar.Section>
           </Navbar>
         </Drawer>
@@ -304,23 +302,31 @@ export const Menu: React.FC<RefineLayoutSiderProps> = ({ render, meta }) => {
           }}
         >
           <Navbar.Section>
-            <Flex direction={'column'} align={'center'}>
-              <Flex align={'center'}>
-                <IconRadar2 />
-                <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
-                  Comercialize
+            <Avatar mr={'0.5rem'} h={'100px'} color="blue" w={'100%'}>
+              <Flex direction={'column'} align={'center'}>
+                <Flex align={'center'}>
+                  <IconRadar2 />
+                  <Text fw={'bold'} ff={'cursive'} fz={'lg'}>
+                    Comercialize
+                  </Text>
+                </Flex>
+                <Text fw={'bold'} ff={'cursive'}>
+                  {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
+                </Text>
+                <Text ff={'cursive'} fw={'bold'}>
+                  {user?.nomeFantasia}
                 </Text>
               </Flex>
-              <Text fw={'bold'} ff={'cursive'}>
-                {formatarCPFCNPJ(user?.cnpj ? user.cnpj! : '')}
-              </Text>
-              <Text ff={'cursive'} fw={'bold'}>
-                {user?.nomeFantasia}
-              </Text>
-            </Flex>
+            </Avatar>
           </Navbar.Section>
-          <Divider />
-          <Navbar.Section grow mt="sm" component={ScrollArea} mx="-xs" px="xs">
+          <Divider size="lg" />
+          <Navbar.Section
+            mt={'0.5rem'}
+            grow
+            component={ScrollArea}
+            mx="-xs"
+            px="xs"
+          >
             {renderSider()}
           </Navbar.Section>
         </Navbar>

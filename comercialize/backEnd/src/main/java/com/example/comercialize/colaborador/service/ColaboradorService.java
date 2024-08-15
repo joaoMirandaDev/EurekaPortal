@@ -32,6 +32,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.util.*;
 
 import static com.example.comercialize.Utils.Interfaces.Routes.PASTA_DEFINITIVA_FOTO_PERFIL;
@@ -112,11 +113,17 @@ public class ColaboradorService {
         }
     }
 
-    public void deleteById(@NotNull @Positive Long id) {
-        if (colaboradorRepository.existsById(id)) {
-            colaboradorRepository.deleteById(id);
-        } else {
-            throw new RuntimeException(messageSource.getMessage("erro.invalid.result.baseData", null, LocaleInteface.BR));
+    public void deleteColaboradorById(@NotNull @Positive Long id) throws Exception {
+        Colaborador colaborador = this.findById(id);
+        try {
+            if (Objects.nonNull(colaborador)) {
+                colaboradorRepository.deleteById(id);
+                if (Objects.nonNull(colaborador.getDocumentos())) {
+                    documentosService.deleteById(colaborador.getDocumentos().getId(), colaborador.getDocumentos().getRoute());
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 

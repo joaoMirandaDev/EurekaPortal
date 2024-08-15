@@ -21,6 +21,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,11 +48,17 @@ public class ColaboradorController {
     @Operation(summary = "Deletar colaborador", description = "Metodo utilizado para deletar os colaboradores", tags = "Colaborador")
     public ResponseEntity<String> deleteById(@NotNull @Positive @PathVariable("id") Long id) {
         try {
-            colaboradorService.deleteById(id);
+            colaboradorService.deleteColaboradorById(id);
           return ResponseEntity.ok(messageSource.getMessage("success.delete", null, LocaleInteface.BR));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(messageSource.getMessage("error.delete", null, LocaleInteface.BR));
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

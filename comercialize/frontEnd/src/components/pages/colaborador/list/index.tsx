@@ -136,8 +136,8 @@ export default function ViewColaborador() {
           findAllColaborador()
           closeModal()
         })
-        .catch(error => {
-          ErrorNotification({ message: error })
+        .catch(() => {
+          ErrorNotification({ message: 'Erro ao deletar colaborador' })
         })
     }
   }

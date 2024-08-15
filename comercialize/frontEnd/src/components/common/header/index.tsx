@@ -1,11 +1,11 @@
 import {
   ActionIcon,
+  Avatar,
   Flex,
   Group,
   Header as MantineHeader,
+  Menu,
   Sx,
-  Text,
-  Tooltip,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
@@ -18,7 +18,6 @@ import { RefineThemedLayoutV2HeaderProps } from '@refinedev/mantine'
 import { IconLogout, IconMoonStars, IconSun } from '@tabler/icons'
 import React from 'react'
 import IUserLogin from 'src/interfaces/user'
-import { formatarCPFCNPJ } from 'src/utils/FormatterUtils'
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky,
@@ -54,13 +53,14 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     >
       <Flex
         justify="flex-end"
+        align={'center'}
         sx={{
           position: 'relative',
           width: '100%',
           height: '100%',
         }}
       >
-        <Group>
+        <Group mr={'0.5rem'}>
           <ActionIcon
             variant="outline"
             radius={'lg'}
@@ -70,25 +70,31 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
           >
             {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
           </ActionIcon>
-          <Tooltip label={'Sair'}>
-            <ActionIcon
-              variant="outline"
-              radius={'lg'}
+        </Group>
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <Avatar
+              mr={'0.5rem'}
+              style={{ cursor: 'pointer' }}
+              color="blue"
+              radius="xl"
+            >
+              {user?.nameUser ? user?.nameUser.slice(0, 2) : ''}
+            </Avatar>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            <Menu.Label>{user?.nameUser}</Menu.Label>
+            <Menu.Divider />
+            <Menu.Item
               color={'red'}
               onClick={() => mutateLogout()}
+              icon={<IconLogout size={14} />}
             >
-              <IconLogout size={18} />
-            </ActionIcon>
-          </Tooltip>
-          <Flex direction={'column'} align={'center'}>
-            <Text fw={'bold'} ff={'cursive'}>
-              {user?.nameUser}
-            </Text>
-            <Text fw={'bold'} ff={'cursive'}>
-              {formatarCPFCNPJ(user?.cpf ? user?.cpf : '')}
-            </Text>
-          </Flex>
-        </Group>
+              Sair
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </Flex>
     </MantineHeader>
   )
