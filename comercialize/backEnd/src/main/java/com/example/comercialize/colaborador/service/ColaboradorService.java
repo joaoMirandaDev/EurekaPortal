@@ -116,11 +116,9 @@ public class ColaboradorService {
     public void deleteColaboradorById(@NotNull @Positive Long id) throws Exception {
         Colaborador colaborador = this.findById(id);
         try {
-            if (Objects.nonNull(colaborador)) {
-                colaboradorRepository.deleteById(id);
-                if (Objects.nonNull(colaborador.getDocumentos())) {
-                    documentosService.deleteById(colaborador.getDocumentos().getId(), colaborador.getDocumentos().getRoute());
-                }
+            colaboradorRepository.deleteById(id);
+            if (Objects.nonNull(colaborador.getDocumentos())) {
+                documentosService.deleteById(colaborador.getDocumentos().getId(), colaborador.getDocumentos().getRoute());
             }
         } catch (Exception e) {
             throw new Exception(e);
