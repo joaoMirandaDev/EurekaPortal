@@ -27,4 +27,5 @@ public interface ColaboradorRepository extends PagingAndSortingRepository<Colabo
             "OR c.cpf LIKE CONCAT('%', :global, '%'))")
     Page<Colaborador> findAll(Pageable pageable, @Param("global") String global, @Param("cnpj") String cnpj);
 
+    List<Colaborador> findAllByCnpjEmpresa(String cnpj);
 }

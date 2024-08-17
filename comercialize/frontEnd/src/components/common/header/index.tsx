@@ -6,6 +6,7 @@ import {
   Header as MantineHeader,
   Menu,
   Sx,
+  Text,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
@@ -84,7 +85,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
           </Menu.Target>
 
           <Menu.Dropdown>
-            <Menu.Label>{user?.nameUser}</Menu.Label>
+            <Menu.Label>
+              <Text align="center" fw={'bold'} ff={'cursive'}>
+                {user?.nameUser}
+              </Text>
+            </Menu.Label>
             <Menu.Divider />
             <Menu.Item
               color={'red'}

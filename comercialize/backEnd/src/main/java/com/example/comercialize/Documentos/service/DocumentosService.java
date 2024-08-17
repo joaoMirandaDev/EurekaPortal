@@ -5,6 +5,7 @@ import com.example.comercialize.Documentos.model.Documentos;
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Documentos.repository.DocumentosRepository;
 
+import com.example.comercialize.Utils.pdf.PdfGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -35,6 +36,7 @@ import java.util.UUID;
 public class DocumentosService {
 
     private final DocumentosRepository documentosRepository;
+    private final PdfGenerator pdf;
 
     public Optional<Documentos> findAll(Short id) {
         List<Documentos> arquivos = documentosRepository.findAll();

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Folha de Pagamento</title>
+</head>
+<body style="background-color: white !important;">
+<header style="border: 1px solid black; flex-direction: row; justify-content:start; display:flex; aling-itens:center;">
+        <img src="${urlFoto}" alt="Logo da Empresa" style="max-width: 200px; margin-bottom: 1rem;" />
+        <div style="margin-left: 1rem; flex-direction: column; display: flex;">
+            <label style="font-weight: bold; font-size: 18px; color: #000; ">
+                Empresa: <span th:text="${companyName}"></span>
+            </label>
+            <label style="font-weight: bold; font-size: 18px; color: #000; ">
+                Cnpj: <span th:text="${cnpj}"></span>
+            </label>
+            <label style="font-weight: bold; font-size: 18px; color: #000; ">
+                Inscr.Estadual: <span th:text="${cnpj}"></span>
+            </label>
+        </div>
+</header>
+<label style="text-align:center; margin-top: 1rem; justify-content:center; display:flex; font-weight: bold; font-size: 28px; color: #000;">Relatório de custos dos colaboradores</label>
+<table class="customers" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+        <th class="columnTr" style="border: 1px solid black; width: 200px; padding: 8px; ">Nome</th>
+        <th class="columnTr" style="border: 1px solid black; width: 200px; padding: 8px; ">Cpf</th>
+        <th style="border: 1px solid black; width: 150px; padding: 8px; ">Data Nascimento</th>
+        <th style="border: 1px solid black; width:200px; padding: 8px;">Cargo</th>
+        <th style="border: 1px solid black; width: 200px; padding: 8px; ">Salário</th>
+    </tr>
+    <tr th:each="obj : ${object}">
+        <td th:text="${obj.nome}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.cpf}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.dataNascimento}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.cargo.nome}" style="border: 1px solid black; padding: 8px;"></td>
+        <td th:text="${obj.salario}" style="border: 1px solid black; padding: 8px;"></td>
+    </tr>
+</table>
+<div style="margin-top: 1rem; aling-itens:center; text-align:center; justify-content: flex-end; height: 30px; width: 264px; margin-left: auto;">
+    <label style="font-weight: bold; font-size: 16px; padding: 8px; ">Total: <span th:text="${total}"></span></label>
+</div>
+
+</body>
+</html>

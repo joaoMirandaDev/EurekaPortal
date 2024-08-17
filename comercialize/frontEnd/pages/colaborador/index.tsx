@@ -12,17 +12,17 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core'
-import { useTranslate } from '@refinedev/core'
+import { useGetIdentity, useTranslate } from '@refinedev/core'
 import {
   IconEdit,
   IconEye,
+  IconFileDownload,
   IconLayoutGrid,
   IconList,
   IconTrash,
   IconUserMinus,
   IconUserPlus,
 } from '@tabler/icons'
-import Cookies from 'js-cookie'
 import {
   MRT_ColumnDef,
   MRT_PaginationState,
@@ -36,12 +36,16 @@ import { useEffect, useMemo, useState } from 'react'
 import IColaborador from 'src/interfaces/colaborador'
 import IFiltoColaborador from 'src/interfaces/IfiltroColaborador'
 import ImodalWarning from 'src/interfaces/ImodalWarning'
+import IUserLogin from 'src/interfaces/user'
 import useWindowWidth from 'src/services/responsive/responsive'
 import api from 'src/utils/Api'
-import { getImage } from 'src/utils/Arquivo'
+import { downloadByteArrayAsFile, getImage } from 'src/utils/Arquivo'
 import { PAGE_INDEX, PAGE_SIZE } from 'src/utils/Constants'
 import { formatarCPFCNPJ, formatarTelefone } from 'src/utils/FormatterUtils'
-import { FIND_ALL_BY_PAGE_COLABORADOR } from 'src/utils/Routes'
+import {
+  FIND_ALL_BY_PAGE_COLABORADOR,
+  GENERATE_RELATORIO_COLABORADOR,
+} from 'src/utils/Routes'
 import { validatePermissionRole } from 'src/utils/ValidatePermissionRole'
 
 interface IColaboradorProps {
@@ -68,7 +72,7 @@ export default function ColaboradorList() {
     pageIndex: PAGE_INDEX,
     pageSize: PAGE_SIZE,
   })
-  const CNPJ: string = 'cnpj'
+  const { data: user } = useGetIdentity<IUserLogin>()
   const [filtro, setFiltro] = useState<IFiltoColaborador>({
     nome: '',
     sobrenome: '',
@@ -76,7 +80,7 @@ export default function ColaboradorList() {
     estado: '',
     cargo: '',
     cidade: '',
-    cnpj: Cookies.get(CNPJ),
+    cnpj: user?.cnpj,
     ativo: null,
     pagina: 0,
     tamanhoPagina: 10,
@@ -91,7 +95,7 @@ export default function ColaboradorList() {
       cargo: '',
       estado: '',
       cidade: '',
-      cnpj: Cookies.get(CNPJ),
+      cnpj: user?.cnpj,
       ativo: null,
       pagina: 0,
       tamanhoPagina: 10,
@@ -182,7 +186,7 @@ export default function ColaboradorList() {
       estado: '',
       cidade: '',
       ativo: 0,
-      cnpj: Cookies.get(CNPJ),
+      cnpj: user?.cnpj,
       pagina: 0,
       tamanhoPagina: 10,
       id: 'nome',
@@ -497,7 +501,7 @@ export default function ColaboradorList() {
           </ActionIcon>
         </Tooltip>
       )}
-      <Tooltip label={row.original.status == 'Ativo' ? 'Ativar' : 'Desativar'}>
+      <Tooltip label={row.original.status == 'Ativo' ? 'Desativar' : 'Ativar'}>
         <ActionIcon
           disabled={validatePermissionRole()}
           size="sm"
@@ -535,6 +539,19 @@ export default function ColaboradorList() {
     setChecked(event)
   }
 
+  const generateRelatorio = () => {
+    api
+      .get(GENERATE_RELATORIO_COLABORADOR + user?.cnpj, {
+        responseType: 'blob',
+      })
+      .then(res => {
+        downloadByteArrayAsFile(res.data)
+      })
+      .catch(() => {
+        console.error(t('components.error.errorGeneric'))
+      })
+  }
+
   return (
     <>
       <Flex justify={'flex-end'} align={'center'} mb={'1rem'}>
@@ -549,6 +566,14 @@ export default function ColaboradorList() {
               offLabel={<IconLayoutGrid size="1rem" stroke={2.5} />}
             />
           )}
+          <Button
+            mr={'0.5rem'}
+            disabled={validatePermissionRole()}
+            leftIcon={<IconFileDownload size={20} />}
+            onClick={() => generateRelatorio()}
+          >
+            Relatório
+          </Button>
           <Button
             disabled={validatePermissionRole()}
             leftIcon={<IconUserPlus size={20} />}

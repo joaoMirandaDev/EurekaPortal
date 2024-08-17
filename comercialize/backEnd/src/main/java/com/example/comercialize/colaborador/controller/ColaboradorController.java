@@ -87,11 +87,10 @@ public class ColaboradorController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/relatorioPagamentoColaborador", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/relatorioPagamentoColaborador/{cnpj}", method = RequestMethod.GET, produces = "application/json")
     @Operation(summary = "Gerar relatorio colaborador", description = "Metodo utilizado para gerar relatorio", tags = "Colaborador")
-    public void relatorioPagamentoColaborador(HttpServletResponse response) throws Exception {
-
-        byte[] bytes = colaboradorService.relatorioPagamentoColaborador();
+    public void relatorioPagamentoColaborador(HttpServletResponse response, @PathVariable("cnpj") String cnpj) throws Exception {
+        byte[] bytes = colaboradorService.relatorioPagamentoColaborador(cnpj);
         response.setContentType(MediaType.APPLICATION_PDF_VALUE);
         response.getOutputStream().write(bytes);
     }

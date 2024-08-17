@@ -149,7 +149,7 @@ public class EmpresaService {
         }
     }
 
-    public EmpresaDto getColaboradorByCnpj(@NotNull @NotEmpty String cnpj) {
+    public EmpresaDto findByCnpj(@NotNull @NotEmpty String cnpj) {
         if (cnpj.isEmpty()) {
             throw new IllegalArgumentException("CNPJ não pode ser vazio");
         }

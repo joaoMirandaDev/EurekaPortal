@@ -20,8 +20,7 @@ import {
   IconUserMinus,
   IconUserPlus,
 } from '@tabler/icons'
-import { useTranslate } from '@refinedev/core'
-import Cookies from 'js-cookie'
+import { useGetIdentity, useTranslate } from '@refinedev/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import IColaborador from 'src/interfaces/colaborador'
@@ -31,9 +30,10 @@ import api from 'src/utils/Api'
 import { getImage } from 'src/utils/Arquivo'
 import { formatarCPFCNPJ, formatarTelefone } from 'src/utils/FormatterUtils'
 import { FIND_ALL_BY_PAGE_COLABORADOR } from 'src/utils/Routes'
+import IUserLogin from 'src/interfaces/user'
 
 export default function ViewColaborador() {
-  const CNPJ: string = 'cnpj'
+  const { data: user } = useGetIdentity<IUserLogin>()
   const [filtro, setFiltro] = useState<IFiltoColaborador>({
     nome: '',
     sobrenome: '',
@@ -41,10 +41,10 @@ export default function ViewColaborador() {
     estado: '',
     cargo: '',
     cidade: '',
-    cnpj: Cookies.get(CNPJ),
+    cnpj: user?.cnpj,
     ativo: null,
     pagina: 0,
-    tamanhoPagina: 18,
+    tamanhoPagina: 14,
     id: 'nome',
     desc: false,
     global: '',
@@ -225,7 +225,14 @@ export default function ViewColaborador() {
           position={windowWidth < 1280 ? 'center' : 'left'}
         >
           {dataCliente.map((val, index) => (
-            <Card key={index} shadow="sm" radius="md" withBorder>
+            <Card
+              key={index}
+              shadow="sm"
+              w={220}
+              h={300}
+              radius="md"
+              withBorder
+            >
               <Card.Section>
                 <Image
                   fit={'fill'}

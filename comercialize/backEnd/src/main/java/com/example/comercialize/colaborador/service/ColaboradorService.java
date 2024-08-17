@@ -3,16 +3,19 @@ package com.example.comercialize.colaborador.service;
 import com.example.comercialize.Documentos.model.Documentos;
 import com.example.comercialize.Documentos.model.FileKey;
 import com.example.comercialize.Documentos.service.DocumentosService;
-import com.example.comercialize.Documentos.service.PdfGenerator;
 import com.example.comercialize.Endereco.service.EnderecoService;
 import com.example.comercialize.Utils.Interfaces.LocaleInteface;
 import com.example.comercialize.Utils.genericClass.GenericSpecification;
+import com.example.comercialize.Utils.pdf.PdfGenerator;
 import com.example.comercialize.cargo.service.CargoService;
 import com.example.comercialize.colaborador.DTO.ColaboradorCreateDto;
 import com.example.comercialize.colaborador.DTO.ColaboradorDto;
 import com.example.comercialize.colaborador.filter.FilterColaborador;
 import com.example.comercialize.colaborador.model.Colaborador;
 import com.example.comercialize.colaborador.repository.ColaboradorRepository;
+import com.example.comercialize.empresas.DTO.EmpresaDto;
+import com.example.comercialize.empresas.model.Empresa;
+import com.example.comercialize.empresas.service.EmpresaService;
 import com.example.comercialize.usuario.service.UsuarioService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -32,22 +35,20 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.io.IOException;
 import java.util.*;
 
-import static com.example.comercialize.Utils.Interfaces.Routes.PASTA_DEFINITIVA_FOTO_PERFIL;
 import static com.example.comercialize.Utils.genericClass.GenericSpecification.*;
 
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ColaboradorService {
 
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
     private final EnderecoService enderecoService;
     private final CargoService cargoService;
+    private final EmpresaService empresaService;
     private final UsuarioService usuarioService;
     private final DocumentosService documentosService;
     private final ColaboradorRepository colaboradorRepository;
@@ -144,7 +145,6 @@ public class ColaboradorService {
             enderecoService.update(dto.getEndereco());
             colaboradorRepository.save(colaborador);
         } catch (DataAccessException e) {
-            log.info(e.getMessage());
             throw new Exception(messageSource.getMessage("error.save", null, LocaleInteface.BR),e);
         }
     }
@@ -170,9 +170,17 @@ public class ColaboradorService {
         return dto;
     }
 
-    public byte[] relatorioPagamentoColaborador() throws Exception {
-        String PATH = "pagamentoColaborador/index";
-        List<Colaborador> colaborador = colaboradorRepository.findAllByAtivo();
-        return PdfGenerator.pdf(colaborador, PATH);
+    public byte[] relatorioPagamentoColaborador(@NotEmpty String cnpj) throws Exception {
+        String PATH = "colaborador/folhaPagamentoColaborador";
+        try{
+            List<Colaborador> colaborador = colaboradorRepository.findAllByCnpjEmpresa(cnpj);
+            EmpresaDto empresa = empresaService.getEmpresaByCnpj(cnpj);
+            HashMap<String, Object> obj = new HashMap<>();
+            obj.put("colaborador", colaborador);
+            obj.put("empresa", empresa);
+            return PdfGenerator.pdf(colaborador, PATH);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
     }
 }

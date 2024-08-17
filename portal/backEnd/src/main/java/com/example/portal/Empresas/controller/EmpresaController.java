@@ -68,10 +68,10 @@ public class EmpresaController {
         empresaService.edit(empresaCreateDto);
     }
 
-    @RequestMapping(value = "/findByCpfCnpj/{cnpj}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/findByCnpj/{cnpj}", method = RequestMethod.GET, produces = "application/json")
     @Operation(summary = "Busca as empresas por CNPJ", description = "Metodo utilizado para resgatar os empresa por CNPJ", tags = "Empresa")
-    public EmpresaDto getColaboradorByCpf(@NotEmpty @PathVariable("cnpj") String cnpj) {
-        return empresaService.getColaboradorByCnpj(cnpj);
+    public EmpresaDto findByCpfCnpj(@NotEmpty @PathVariable("cnpj") String cnpj) {
+        return empresaService.findByCnpj(cnpj);
     }
 
     @RequestMapping(value = "/activeOrDisable/{id}/{status}", method = RequestMethod.PUT, produces = "application/json")
